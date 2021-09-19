@@ -19,18 +19,25 @@ class MovieController extends AbstractController
 
         $movies = $this->getDoctrine()->getRepository(Movies::class)->find($id);
 
+        if( !$movies ) {
+            return $this->json([
+                'message' => 'No product found for id '.$id,
+            ]);
+        }
+
         return $this->json([
             'nombre' => $movies->getNombre(),
-            'anno' => '2019',
-            'productora' => 'Netflix',
-            'descripcion' => 'El prestigioso guardaespaldas Michael Bryce recibe un nuevo cliente: un asesino a sueldo, Darius Kincaid, que debe testificar en un juicio en La Haya contra un cruel dictador.',
-            'poster' => '',
-            'fanart' => '',
-            'url' => '',
-            'idioma_subtitulo' => 'Español',
-            'duracion' => '1h 58m',
-            'director' => 'Patrick Hughes',
-            'genero' => 'Accion'
+            'anno' => $movies->getAnno(),
+            'productora' => $movies->getProductora(),
+            'descripcion' => $movies->getDescripcion(),
+            'poster' => $movies->getPoster(),
+            'fanart' => $movies->getFanart(),
+            'url' => $movies->getUrl(),
+            'idioma_subtitulo' => $movies->getIdiomaSubtitulo(),
+            'duracion' => $movies->getDuracion(),
+            'director' => $movies->getDirector(),
+            'genero' => $movies->getGenero(),
         ]);
+
     }
 }
