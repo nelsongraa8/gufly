@@ -7,8 +7,6 @@ use App\Entity\Movies;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
-use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
-//use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
@@ -38,23 +36,15 @@ class MoviesCrudController extends AbstractCrudController
         ;
     }
 
-    // public function configureFilters(Filters $filters): Filters
-    // {
-    //     return $filters
-    //         ->add(EntityFilter::new('nombre'))
-    //     ;
-    // }
-
     public function configureFields(string $pageName): iterable
     {
         yield IdField::new('id')->onlyOnIndex();
         yield TextField::new('nombre');
-        yield TextField::new('anno');
+        yield TextField::new('anno', 'Año');
+        yield TextField::new('productora');
 
         yield TextEditorField::new('descripcion')->onlyOnIndex();
         yield TextareaField::new('descripcion')->hideOnIndex();
-
-        yield TextField::new('productora');
 
         yield ImageField::new('poster')->onlyOnIndex();
         yield TextField::new('poster')->hideOnIndex();
@@ -63,8 +53,15 @@ class MoviesCrudController extends AbstractCrudController
         yield TextField::new('fanart')->hideOnIndex();
 
         yield UrlField::new('url')->hideOnIndex();
-        yield TextField::new('idioma_subtitulo');
-        yield IntegerField::new('duracion');
+        yield TextField::new('idioma_subtitulo' , 'Idioma Sub');
+
+        yield IntegerField::new('duracion')->formatValue(function($value, $entity) {
+            $horas = (int) ($value / 3600);
+            $minutos = ($value / 60) % 60;
+
+            return $horas.'h '.$minutos.'m';
+        });
+
         yield TextField::new('director');
         yield TextField::new('genero');
     }
