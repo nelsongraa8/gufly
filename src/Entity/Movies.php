@@ -5,8 +5,6 @@ namespace App\Entity;
 use App\Repository\MoviesRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-//use Doctrine\Common\Collections\ArrayCollection;
-
 /**
  * @ORM\Entity(repositoryClass=MoviesRepository::class)
  */
