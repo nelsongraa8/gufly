@@ -38,6 +38,7 @@ class MoviesCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
+
         yield IdField::new('id')->onlyOnIndex();
         yield TextField::new('nombre');
         yield TextField::new('anno', 'Año');
@@ -62,8 +63,8 @@ class MoviesCrudController extends AbstractCrudController
             return $horas.'h '.$minutos.'m';
         });
 
-        yield TextField::new('director');
-        yield TextField::new('genero');
+        yield TextField::new('director')->setSortable(false);
+        yield TextField::new('genero')->setHelp('');
     }
 
 }
