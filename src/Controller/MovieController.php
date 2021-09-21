@@ -48,8 +48,17 @@ class MovieController extends AbstractController
     public function allmovie( Request $request, MoviesRepository $moviesrepository )
     {
 
+        /** Traigo el repository en el que voy a trabajar como un parametro del metodo */
         $movies = $moviesrepository->findAll();
 
+        /** Verificar si se devolvio algun elemento */
+        if( !$movies ) {
+            return $this->json([
+                'message' => 'Lo sentimos! No hay peliculas',
+            ]);
+        }
+
+        /** movies hay que transformarlo en un array para despues mostrarlo en un JSON */
         $moviesAsArray = [];
         foreach ($movies as $movie) {
             $moviesAsArray[] = [
@@ -67,18 +76,14 @@ class MovieController extends AbstractController
             ];
         }
 
-        if( !$movies ) {
-            return $this->json([
-                'message' => 'No product found for id ',
-            ]);
-        }
-
+        /** Devolver los datos como JSON y mandar en el el array que se creo con el foreach() */
         $response = new JsonResponse;
         $response->setData([
             'success' => true,
             'data' => $moviesAsArray
         ]);
 
+        /** Retornar el response hecho de JSON */
         return $response;
 
     }
