@@ -12,6 +12,20 @@ use App\Repository\MoviesRepository;
 
 class MovieController extends AbstractController
 {
+
+    /**
+     * @Route("/", name="home")
+     */
+    public function start(): JsonResponse
+    {
+
+        //if( !$movies ) {
+            return $this->json([
+                'message' => 'No product found for id ',
+            ]);
+        //}
+    }
+
     /**
      * @Route("/moviedata/{id}", name="movie")
      */
