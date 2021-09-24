@@ -43,7 +43,7 @@ class MovieController extends AbstractController
     }
 
     /**
-     * @Route("/", name="allmovie")
+     * @Route("/allmoviedata", name="allmovie")
      */
     public function allmovie( Request $request, MoviesRepository $moviesrepository )
     {
