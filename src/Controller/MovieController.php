@@ -16,7 +16,7 @@ class MovieController extends AbstractController
     /**
      * @Route("/", name="home")
      */
-    public function start(): JsonResponse
+    public function start( Request $request, MoviesRepository $moviesrepository ): JsonResponse
     {
 
         /** Traigo el repository en el que voy a trabajar como un parametro del metodo */
