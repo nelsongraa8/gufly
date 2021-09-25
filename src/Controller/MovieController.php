@@ -20,7 +20,7 @@ class MovieController extends AbstractController
     {
 
         return $this->json([
-            'message' => 'home de symfony',
+            'message' => 'home de symfony 5',
         ]);
 
     }
