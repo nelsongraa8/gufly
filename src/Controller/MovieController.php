@@ -16,51 +16,24 @@ class MovieController extends AbstractController
     /**
      * @Route("/", name="home")
      */
-    public function start( Request $request, MoviesRepository $moviesrepository ): JsonResponse
+    public function start(): JsonResponse
     {
 
-        /** Traigo el repository en el que voy a trabajar como un parametro del metodo */
-        $movies = $moviesrepository->findAll();
-
-        /** Verificar si se devolvio algun elemento */
-        if( !$movies ) {
-            return $this->json([
-                'message' => 'Lo sentimos! No hay peliculas',
-            ]);
-        }
-
-        /** movies hay que transformarlo en un array para despues mostrarlo en un JSON */
-        $moviesAsArray = [];
-        foreach ($movies as $movie) {
-            $moviesAsArray[] = [
-                'nombre' => $movie->getNombre(),
-                'anno' => $movie->getAnno(),
-                'productora' => $movie->getProductora(),
-                'descripcion' => $movie->getDescripcion(),
-                'poster' => $movie->getPoster(),
-                'fanart' => $movie->getFanart(),
-                'url' => $movie->getUrl(),
-                'idioma_subtitulo' => $movie->getIdiomaSubtitulo(),
-                'duracion' => $movie->getDuracion(),
-                'director' => $movie->getDirector(),
-                'genero' => $movie->getGenero(),
-            ];
-        }
-
-        /** Devolver los datos como JSON y mandar en el el array que se creo con el foreach() */
-        $response = new JsonResponse;
-        $response->setData([
-            'success' => true,
-            'data' => $moviesAsArray
+        return $this->json([
+            'message' => 'home de symfony',
         ]);
 
-        header('Access-Control-Allow-Origin: http://localhost:4200');
-        header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method");
-        header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
-        header("Allow: GET, POST, OPTIONS, PUT, DELETE");
+    }
 
-        /** Retornar el response hecho de JSON */
-        return $response;
+    /**
+     * @Route("/testruta", name="testruta")
+     */
+    public function testruta(): JsonResponse
+    {
+
+        return $this->json([
+            'message' => 'test de ruta',
+        ]);
 
     }
 
