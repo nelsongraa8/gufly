@@ -20,52 +20,11 @@ class MovieController extends AbstractController
     {
 
         return $this->json([
-            'message' => 'home de symfony 5',
+            'message' => 'use directamente /allmovie',
         ]);
 
     }
 
-    /**
-     * @Route("/testruta", name="testruta")
-     */
-    public function testruta(): JsonResponse
-    {
-
-        return $this->json([
-            'message' => 'test de ruta',
-        ]);
-
-    }
-
-    /**
-     * @Route("/moviedata/{id}", name="movie")
-     */
-    public function movie( int $id ): JsonResponse
-    {
-
-        $movies = $this->getDoctrine()->getRepository(Movies::class)->find($id);
-
-        if( !$movies ) {
-            return $this->json([
-                'message' => 'No product found for id '.$id,
-            ]);
-        }
-
-        return $this->json([
-            'nombre' => $movies->getNombre(),
-            'anno' => $movies->getAnno(),
-            'productora' => $movies->getProductora(),
-            'descripcion' => $movies->getDescripcion(),
-            'poster' => $movies->getPoster(),
-            'fanart' => $movies->getFanart(),
-            'url' => $movies->getUrl(),
-            'idioma_subtitulo' => $movies->getIdiomaSubtitulo(),
-            'duracion' => $movies->getDuracion(),
-            'director' => $movies->getDirector(),
-            'genero' => $movies->getGenero(),
-        ]);
-
-    }
 
     /**
      * @Route("/allmoviedata", name="allmovie")
@@ -115,6 +74,37 @@ class MovieController extends AbstractController
 
         /** Retornar el response hecho de JSON */
         return $response;
+
+    }
+
+    
+    /**
+     * @Route("/moviedata/{id}", name="movie")
+     */
+    public function movie( int $id ): JsonResponse
+    {
+
+        $movies = $this->getDoctrine()->getRepository(Movies::class)->find($id);
+
+        if( !$movies ) {
+            return $this->json([
+                'message' => 'No product found for id '.$id,
+            ]);
+        }
+
+        return $this->json([
+            'nombre' => $movies->getNombre(),
+            'anno' => $movies->getAnno(),
+            'productora' => $movies->getProductora(),
+            'descripcion' => $movies->getDescripcion(),
+            'poster' => $movies->getPoster(),
+            'fanart' => $movies->getFanart(),
+            'url' => $movies->getUrl(),
+            'idioma_subtitulo' => $movies->getIdiomaSubtitulo(),
+            'duracion' => $movies->getDuracion(),
+            'director' => $movies->getDirector(),
+            'genero' => $movies->getGenero(),
+        ]);
 
     }
 }
