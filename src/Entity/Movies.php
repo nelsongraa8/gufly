@@ -72,6 +72,11 @@ class Movies
      */
     private $genero;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Destacadas::class, mappedBy="movies", cascade={"persist", "remove"})
+     */
+    private $destacadas;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -205,6 +210,23 @@ class Movies
     public function setGenero(?string $genero): self
     {
         $this->genero = $genero;
+
+        return $this;
+    }
+
+    public function getDestacadas(): ?Destacadas
+    {
+        return $this->destacadas;
+    }
+
+    public function setDestacadas(Destacadas $destacadas): self
+    {
+        // set the owning side of the relation if necessary
+        if ($destacadas->getMovies() !== $this) {
+            $destacadas->setMovies($this);
+        }
+
+        $this->destacadas = $destacadas;
 
         return $this;
     }
