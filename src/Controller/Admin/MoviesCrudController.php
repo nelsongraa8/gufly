@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Movies;
+use App\Entity\Destacadas;
 
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;

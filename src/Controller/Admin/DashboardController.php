@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 use App\Entity\Movies;
+use App\Entity\Destacadas;
 
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 
@@ -35,5 +36,6 @@ class DashboardController extends AbstractDashboardController
     {
         yield MenuItem::linktoRoute('Back to the website', 'fas fa-home', 'homepage');
         yield MenuItem::linkToCrud('Movies', 'fas fa-comments', Movies::class);
+        yield MenuItem::linkToCrud('Destacadas', 'fas fa-list', Destacadas::class);
     }
 }

@@ -5,6 +5,8 @@ namespace App\Entity;
 use App\Repository\DestacadasRepository;
 use Doctrine\ORM\Mapping as ORM;
 
+use App\Entity\Movies;
+
 /**
  * @ORM\Entity(repositoryClass=DestacadasRepository::class)
  */
@@ -18,8 +20,7 @@ class Destacadas
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity=Movies::class, inversedBy="destacadas", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\OneToOne(targetEntity=App\Entity\Movies, inversedBy="destacadas", cascade={"persist", "remove"})
      */
     private $movies;
 
@@ -32,6 +33,11 @@ class Destacadas
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $text;
+
+    public function __toString(): string
+    {
+        return (string) $this->getMovies();
+    }
 
     public function getId(): ?int
     {

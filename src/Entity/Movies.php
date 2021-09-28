@@ -5,6 +5,8 @@ namespace App\Entity;
 use App\Repository\MoviesRepository;
 use Doctrine\ORM\Mapping as ORM;
 
+use App\Entity\Destacadas;
+
 /**
  * @ORM\Entity(repositoryClass=MoviesRepository::class)
  */
@@ -73,9 +75,14 @@ class Movies
     private $genero;
 
     /**
-     * @ORM\OneToOne(targetEntity=Destacadas::class, mappedBy="movies", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=App\Entity\Destacadas, mappedBy="movies", cascade={"persist", "remove"})
      */
     private $destacadas;
+
+    public function __toString(): string
+    {
+        return $this->nombre;
+    }
 
     public function getId(): ?int
     {
