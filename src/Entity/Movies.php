@@ -79,6 +79,11 @@ class Movies
      */
     private $destacadas;
 
+    /**
+     * @ORM\Column(type="boolean", length=255, nullable=true)
+     */
+    private $relevante;
+
     public function __toString(): string
     {
         return $this->nombre;
@@ -234,6 +239,18 @@ class Movies
         }
 
         $this->destacadas = $destacadas;
+
+        return $this;
+    }
+
+    public function getRelevante(): ?string
+    {
+        return $this->relevante;
+    }
+
+    public function setRelevante(?string $relevante): self
+    {
+        $this->relevante = $relevante;
 
         return $this;
     }

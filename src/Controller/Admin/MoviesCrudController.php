@@ -19,6 +19,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 
 class MoviesCrudController extends AbstractCrudController
 {
@@ -66,6 +67,7 @@ class MoviesCrudController extends AbstractCrudController
 
         yield TextField::new('director')->setSortable(false);
         yield TextField::new('genero')->setHelp('');
+        yield BooleanField::new('relevante')->setHelp('Sleccione para que se muestre en el carrucel de inicio');
     }
 
 }
