@@ -20,7 +20,7 @@ class MovieController extends AbstractController
     {
 
         return $this->json([
-            'message' => 'use directamente /allmovie',
+            'message' => 'use directamente /allmoviedata',
         ]);
 
     }
@@ -77,7 +77,7 @@ class MovieController extends AbstractController
 
     }
 
-    
+
     /**
      * @Route("/moviedata/{id}", name="movie")
      */
@@ -107,4 +107,56 @@ class MovieController extends AbstractController
         ]);
 
     }
+
+
+    /**
+     * @Route("/relevantesdata", name="relevantes")
+     */
+    public function relevantes(): JsonResponse
+    {
+
+        $em = $this->getDoctrine()->getManager();
+        $relevantes = $em->getRepository(Movies::class)->findBy(['relevante' => true ]);
+
+        if( !$relevantes ) {
+            return $this->json([
+                'message' => 'Lo sentimos! No hay peliculas relevenates',
+            ]);
+        }
+
+        /** movies hay que transformarlo en un array para despues mostrarlo en un JSON */
+        $moviesAsArray = [];
+        foreach ($relevantes as $movie) {
+            $moviesAsArray[] = [
+                'nombre' => $movie->getNombre(),
+                'anno' => $movie->getAnno(),
+                'productora' => $movie->getProductora(),
+                'descripcion' => $movie->getDescripcion(),
+                'poster' => $movie->getPoster(),
+                'fanart' => $movie->getFanart(),
+                'url' => $movie->getUrl(),
+                'idioma_subtitulo' => $movie->getIdiomaSubtitulo(),
+                'duracion' => $movie->getDuracion(),
+                'director' => $movie->getDirector(),
+                'genero' => $movie->getGenero(),
+            ];
+        }
+
+        /** Devolver los datos como JSON y mandar en el el array que se creo con el foreach() */
+        $response = new JsonResponse;
+        $response->setData([
+            'success' => true,
+            'data' => $moviesAsArray
+        ]);
+
+        header('Access-Control-Allow-Origin:'.$_ENV['CLIENT_URL']);
+        header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method");
+        header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
+        header("Allow: GET, POST, OPTIONS, PUT, DELETE");
+
+        /** Retornar el response hecho de JSON */
+        return $response;
+
+    }
+
 }
