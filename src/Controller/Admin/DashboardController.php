@@ -29,13 +29,27 @@ class DashboardController extends AbstractDashboardController
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('Gufly');
+            ->setTitle('<img src="http://localhost:4200/assets/image/logo.png">')
+            ->setFaviconPath('http://localhost:4200/assets/image/logo.svg')
+            ->setTranslationDomain('my-custom-domain')
+            ->setTextDirection('ltr')
+            ->renderContentMaximized()
+            ->renderSidebarMinimized()
+            ->disableUrlSignatures()
+            ->generateRelativeUrls()
+            ;
     }
 
     public function configureMenuItems(): iterable
     {
-        yield MenuItem::linktoRoute('Back to the website', 'fas fa-home', 'homepage');
-        yield MenuItem::linkToCrud('Movies', 'fas fa-comments', Movies::class);
-        yield MenuItem::linkToCrud('Destacadas', 'fas fa-list', Destacadas::class);
+        return [
+            MenuItem::linkToDashboard('Dashboard', 'fa fa-home'),
+
+            MenuItem::section('Peliculas'),
+            MenuItem::linkToCrud('Movies', 'fas fa-play', Movies::class),
+
+            // MenuItem::section('Destacadas'),
+            // MenuItem::linkToCrud('Destacadas', 'fas fa-list', Destacadas::class)
+        ];
     }
 }

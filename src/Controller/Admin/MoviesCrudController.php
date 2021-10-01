@@ -67,7 +67,7 @@ class MoviesCrudController extends AbstractCrudController
 
         yield TextField::new('director')->setSortable(false);
         yield TextField::new('genero')->setHelp('');
-        yield BooleanField::new('relevante')->setHelp('Sleccione para que se muestre en el carrucel de inicio');
+        yield BooleanField::new('relevante')->setHelp('Seleccione para que se muestre en el carrucel de inicio');
     }
 
 }
