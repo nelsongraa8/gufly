@@ -20,7 +20,7 @@ class Destacadas
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity=App\Entity\Movies, inversedBy="destacadas", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=Movies::class, inversedBy="destacadas", cascade={"persist", "remove"})
      */
     private $movies;
 

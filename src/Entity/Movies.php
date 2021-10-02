@@ -75,7 +75,7 @@ class Movies
     private $genero;
 
     /**
-     * @ORM\OneToOne(targetEntity=App\Entity\Destacadas, mappedBy="movies", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=Destacadas::class, mappedBy="movies", cascade={"persist", "remove"})
      */
     private $destacadas;
 
