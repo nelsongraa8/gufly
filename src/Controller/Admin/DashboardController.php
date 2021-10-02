@@ -48,8 +48,8 @@ class DashboardController extends AbstractDashboardController
             MenuItem::section('Peliculas'),
             MenuItem::linkToCrud('Movies', 'fas fa-play', Movies::class),
 
-            // MenuItem::section('Destacadas'),
-            // MenuItem::linkToCrud('Destacadas', 'fas fa-list', Destacadas::class)
+            MenuItem::section('Destacadas'),
+            MenuItem::linkToCrud('Destacadas', 'fas fa-list', Destacadas::class)
         ];
     }
 }
