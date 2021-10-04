@@ -84,6 +84,11 @@ class Movies
      */
     private $relevante;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $tmdbid;
+
     public function __toString(): string
     {
         return $this->nombre;
@@ -251,6 +256,18 @@ class Movies
     public function setRelevante(?string $relevante): self
     {
         $this->relevante = $relevante;
+
+        return $this;
+    }
+
+    public function getTmdbid(): ?int
+    {
+        return $this->tmdbid;
+    }
+
+    public function setTmdbid(?int $tmdbid): self
+    {
+        $this->tmdbid = $tmdbid;
 
         return $this;
     }

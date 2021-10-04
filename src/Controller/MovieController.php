@@ -51,13 +51,18 @@ class MovieController extends AbstractController
     {
 
         /** Traigo el repository en el que voy a trabajar como un parametro del metodo */
-        $movies = $this->getDoctrine()->getRepository(Movies::class)->findBy(['id'=>$id]);
+        //$movies = $this->getDoctrine()->getRepository(Movies::class)->findBy(['id'=>$id]);
+        $movies = $this->getDoctrine()->getRepository(Movies::class)->find($id);
 
         /** Verificar si se devolvio algun elemento */
         if( !$movies ) { return $this->verification_em( $movies ); }
 
+        //$movie_data_json = $this->array_em_json( $movies );
+
+        $movie_data_json_api = $this->HTTPConnectApiTMDB( $movies );
+
         /** Retornar el response hecho de JSON */
-        return $this->array_em_json( $movies );
+        return $movie_data_json_api;
 
     }
 
@@ -104,6 +109,8 @@ class MovieController extends AbstractController
         $moviesAsArray = [];
         foreach ($movies as $movie) {
             $moviesAsArray[] = [
+                'id' => $movie->getId(),
+                'tmdbid' => $movie->getTmdbid(),
                 'nombre' => $movie->getNombre(),
                 'anno' => $movie->getAnno(),
                 'productora' => $movie->getProductora(),
@@ -124,6 +131,41 @@ class MovieController extends AbstractController
         return $response->setData([
             'success' => true,
             'data' => $moviesAsArray
+        ]);
+    }
+
+    public function HTTPConnectApiTMDB( $movie )
+    {
+        /** Sacar los datos de la API de TheMovieDB */
+        try {
+            $res = json_decode(
+                file_get_contents("http://api.themoviedb.org/3/movie/".$movie->getTmdbid()."?api_key=834059cb24bc11be719c241a12f537f4"),
+                true
+            );
+        } catch (Exception $e) {
+            $res = '';
+        }
+
+        $array_movie = [
+            'id' => $movie->getId(),
+            'tmdbid' => $movie->getTmdbid(),
+            'nombre' => $movie->getNombre(),
+            'anno' => $movie->getAnno(),
+            'productora' => $movie->getProductora(),
+            'descripcion' => $movie->getDescripcion(),
+            'poster' => $movie->getPoster(),
+            'fanart' => $movie->getFanart(),
+            'url' => $movie->getUrl(),
+            'idioma_subtitulo' => $movie->getIdiomaSubtitulo(),
+            'duracion' => $movie->getDuracion(),
+            'director' => $movie->getDirector(),
+            'genero' => $movie->getGenero(),
+        ];
+
+        $response = new JsonResponse;
+        return $response->setData([
+            'data' => $array_movie,
+            'data_api' => $res
         ]);
     }
 
