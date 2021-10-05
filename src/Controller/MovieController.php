@@ -139,33 +139,37 @@ class MovieController extends AbstractController
         /** Sacar los datos de la API de TheMovieDB */
         try {
             $res = json_decode(
-                file_get_contents("http://api.themoviedb.org/3/movie/".$movie->getTmdbid()."?api_key=834059cb24bc11be719c241a12f537f4"),
+                file_get_contents("http://api.themoviedb.org/3/movie/".$movie->getTmdbid()."?api_key=834059cb24bc11be719c241a12f537f4&language=es"),
+                //file_get_contents("http://localhost/guflyjson/movie.json"),
                 true
             );
         } catch (Exception $e) {
-            $res = '';
+            $res = $e->getMessage();
+        }
+
+        try {
+            $res_credits = json_decode(
+                file_get_contents("http://api.themoviedb.org/3/movie/".$movie->getTmdbid()."/credits?api_key=834059cb24bc11be719c241a12f537f4&language=es"),
+                //file_get_contents("http://localhost/guflyjson/credits.json"),
+                true
+            );
+        } catch (Exception $e) {
+            $res_credits = $e->getMessage();
         }
 
         $array_movie = [
             'id' => $movie->getId(),
             'tmdbid' => $movie->getTmdbid(),
             'nombre' => $movie->getNombre(),
-            'anno' => $movie->getAnno(),
-            'productora' => $movie->getProductora(),
-            'descripcion' => $movie->getDescripcion(),
-            'poster' => $movie->getPoster(),
-            'fanart' => $movie->getFanart(),
             'url' => $movie->getUrl(),
-            'idioma_subtitulo' => $movie->getIdiomaSubtitulo(),
-            'duracion' => $movie->getDuracion(),
-            'director' => $movie->getDirector(),
-            'genero' => $movie->getGenero(),
+            'url_subtitulo' => $movie->getIdiomaSubtitulo(),
         ];
 
         $response = new JsonResponse;
         return $response->setData([
             'data' => $array_movie,
-            'data_api' => $res
+            'data_api' => $res,
+            'data_api_credits' => $res_credits
         ]);
     }
 
