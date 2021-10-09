@@ -13,59 +13,41 @@ use App\Repository\MoviesRepository;
 class MovieController extends AbstractController
 {
 
+    /** Permite que el server haga 200 OK a un cliente diferente de este host */
+    function __construct()
+    {
+        header('Access-Control-Allow-Origin:'.$_ENV['CLIENT_URL']);
+        header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method");
+        header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
+        header("Allow: GET, POST, OPTIONS, PUT, DELETE");
+    }
+
     /**
      * @Route("/", name="home")
      */
     public function start(): JsonResponse
     {
-
         return $this->json([
             'message' => 'Use directamente /allmoviedata',
         ]);
-
     }
 
 
     /**
      * @Route("/allmoviedata", name="allmovie")
      */
-    public function allmovie( Request $request, MoviesRepository $moviesrepository )
+    public function allmovie( Request $request, MoviesRepository $moviesrepository ): JsonResponse
     {
-
         /** Traigo el repository en el que voy a trabajar como un parametro del metodo */
         $movies = $moviesrepository->findAll();
 
         /** Verificar si se devolvio algun elemento */
         if( !$movies ) { return $this->verification_em( $movies ); }
 
-        /** Retornar el response hecho de JSON */
-        return $this->array_em_json( $movies );
-
+        /** Devolver los datos como JSON y mandar en el el array que se creo con el foreach() */
+        $response = new JsonResponse;
+        return $response->setData( $this->array_em_json($movies) );
     }
-
-
-    /**
-     * @Route("/moviedata/{id}", name="movie")
-     */
-    public function movie( int $id ): JsonResponse
-    {
-
-        /** Traigo el repository en el que voy a trabajar como un parametro del metodo */
-        //$movies = $this->getDoctrine()->getRepository(Movies::class)->findBy(['id'=>$id]);
-        $movies = $this->getDoctrine()->getRepository(Movies::class)->find($id);
-
-        /** Verificar si se devolvio algun elemento */
-        if( !$movies ) { return $this->verification_em( $movies ); }
-
-        //$movie_data_json = $this->array_em_json( $movies );
-
-        $movie_data_json_api = $this->HTTPConnectApiTMDB( $movies );
-
-        /** Retornar el response hecho de JSON */
-        return $movie_data_json_api;
-
-    }
-
 
     /**
      * @Route("/relevantesdata", name="relevantes")
@@ -81,19 +63,33 @@ class MovieController extends AbstractController
         if( !$relevantes ) { return $this->verification_em( $relevantes ); }
 
         /** Retornar el response hecho de JSON */
-        return $this->array_em_json( $relevantes );
+        $response = new JsonResponse;
+        return $response->setData( $this->array_em_json($relevantes) );
 
     }
 
-    /** Permite que el server haga 200 OK a un cliente diferente de este host */
-    function __construct()
+    /**
+     * @Route("/search/{name_movie}", name="search_movie")
+     */
+    public function search_movie( $name_movie ): JsonResponse
     {
-        header('Access-Control-Allow-Origin:'.$_ENV['CLIENT_URL']);
-        header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method");
-        header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
-        header("Allow: GET, POST, OPTIONS, PUT, DELETE");
+        /** Traigo el repository en el que voy a trabajar como un parametro del metodo */
+        $em = $this->getDoctrine()->getManager();
+        $search_movie = $em->getRepository(Movies::class)->findAllNombreSearch($name_movie);
+
+        /** Verificar si se devolvio algun elemento */
+        if( !$search_movie ) { return $this->verification_em( $search_movie ); }
+
+        /** Retornar el response hecho de JSON */
+        $response = new JsonResponse;
+        return $response->setData( $this->array_em_json($search_movie) );
     }
 
+
+
+
+
+    /**                                                   */
     /** Simple verificacion y mensaje de respuesta en formato JSON si no hay resultadso en la DB */
     public function verification_em( $var_verify )
     {
@@ -103,74 +99,39 @@ class MovieController extends AbstractController
     }
 
     /** Formateo de la salida de un array en JSON, en llamado desde cada metodo de este controlador */
-    public function array_em_json( $movies )
+    public function array_em_json( $movies_data )
     {
         /** movies hay que transformarlo en un array para despues mostrarlo en un JSON */
         $moviesAsArray = [];
-        foreach ($movies as $movie) {
-            $moviesAsArray[] = [
-                'id' => $movie->getId(),
-                'tmdbid' => $movie->getTmdbid(),
-                'nombre' => $movie->getNombre(),
-                'anno' => $movie->getAnno(),
-                'productora' => $movie->getProductora(),
-                'descripcion' => $movie->getDescripcion(),
-                'poster' => $movie->getPoster(),
-                'fanart' => $movie->getFanart(),
-                'url' => $movie->getUrl(),
-                'idioma_subtitulo' => $movie->getIdiomaSubtitulo(),
-                'duracion' => $movie->getDuracion(),
-                'director' => $movie->getDirector(),
-                'genero' => $movie->getGenero(),
-            ];
+        foreach ($movies_data as $movie) {
+                $moviesAsArray[] = [
+                    'id' => $movie->getId(),
+                    'tmdbid' => $movie->getTmdbid(),
+                    'nombre' => $movie->getNombre(),
+                    'anno' => $movie->getAnno(),
+                    'url' => $movie->getUrl(),
+                    'idioma_subtitulo' => $movie->getIdiomaSubtitulo(),
+                    'data_tmdb' => $this->HTTPConnectApiTMDBMovieData( $movie ),
+                ];
         }
 
-        /** Devolver los datos como JSON y mandar en el el array que se creo con el foreach() */
-        $response = new JsonResponse;
-
-        return $response->setData([
-            'success' => true,
-            'data' => $moviesAsArray
-        ]);
+        return $moviesAsArray;
     }
 
-    public function HTTPConnectApiTMDB( $movie )
-    {
-        /** Sacar los datos de la API de TheMovieDB */
-        try {
-            $res = json_decode(
-                file_get_contents("http://api.themoviedb.org/3/movie/".$movie->getTmdbid()."?api_key=834059cb24bc11be719c241a12f537f4&language=es"),
-                //file_get_contents("http://localhost/guflyjson/movie.json"),
-                true
-            );
-        } catch (Exception $e) {
-            $res = $e->getMessage();
+    public function HTTPConnectApiTMDBMovieData( $moviesid ) {
+        if( $moviesid->getTmdbid() != '' ) {
+            try {
+                $resapirestmdb = json_decode(
+                    file_get_contents("http://api.themoviedb.org/3/movie/".$moviesid->getTmdbid()."?api_key=834059cb24bc11be719c241a12f537f4&language=es"),
+                    true
+                );
+            } catch (Exception $e) {
+                $resapirestmdb = $e->getMessage();
+            }
+            return $resapirestmdb;
+        } else {
+            return 0;
         }
-
-        try {
-            $res_credits = json_decode(
-                file_get_contents("http://api.themoviedb.org/3/movie/".$movie->getTmdbid()."/credits?api_key=834059cb24bc11be719c241a12f537f4&language=es"),
-                //file_get_contents("http://localhost/guflyjson/credits.json"),
-                true
-            );
-        } catch (Exception $e) {
-            $res_credits = $e->getMessage();
-        }
-
-        $array_movie = [
-            'id' => $movie->getId(),
-            'tmdbid' => $movie->getTmdbid(),
-            'nombre' => $movie->getNombre(),
-            'url' => $movie->getUrl(),
-            'url_subtitulo' => $movie->getIdiomaSubtitulo(),
-        ];
-
-        $response = new JsonResponse;
-        return $response->setData([
-            'data' => $array_movie,
-            'data_api' => $res,
-            'data_api_credits' => $res_credits
-        ]);
     }
 
 }
