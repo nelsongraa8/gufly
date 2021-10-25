@@ -85,6 +85,11 @@ class Movies
     private $relevante;
 
     /**
+     * @ORM\Column(type="boolean", length=255, nullable=true)
+     */
+    private $activate;
+
+    /**
      * @ORM\Column(type="integer", nullable=true)
      */
     private $tmdbid;
@@ -268,6 +273,18 @@ class Movies
     public function setTmdbid(?int $tmdbid): self
     {
         $this->tmdbid = $tmdbid;
+
+        return $this;
+    }
+
+    public function getActivate(): ?int
+    {
+        return $this->activate;
+    }
+
+    public function setActivate(?int $activate): self
+    {
+        $this->activate = $activate;
 
         return $this;
     }

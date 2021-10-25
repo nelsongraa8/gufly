@@ -43,9 +43,9 @@ class MoviesCrudController extends AbstractCrudController
 
         yield IdField::new('id')->onlyOnIndex();
         yield IdField::new('tmdbid' , 'tmdbID');
+        yield BooleanField::new('activate' , 'Activado')->onlyOnIndex();
         yield TextField::new('nombre');
         yield TextField::new('anno', 'Año');
-        //yield TextField::new('productora');
 
         yield TextEditorField::new('descripcion')->onlyOnIndex();
         yield TextareaField::new('descripcion')->hideOnIndex();

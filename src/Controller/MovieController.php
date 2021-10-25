@@ -39,7 +39,7 @@ class MovieController extends AbstractController
     public function allmovie( Request $request, MoviesRepository $moviesrepository ): JsonResponse
     {
         /** Traigo el repository en el que voy a trabajar como un parametro del metodo */
-        $movies = $moviesrepository->findAll();
+        $movies = $moviesrepository->findBy(['activate' => true ]);
 
         /** Verificar si se devolvio algun elemento */
         if( !$movies ) { return $this->verification_em( $movies ); }
@@ -65,6 +65,25 @@ class MovieController extends AbstractController
         /** Retornar el response hecho de JSON */
         $response = new JsonResponse;
         return $response->setData( $this->array_em_json($relevantes) );
+
+    }
+
+    /**
+     * @Route("/lastmoviedata", name="lastmovie")
+     */
+    public function lastmovie(): JsonResponse
+    {
+
+        /** Traigo el repository en el que voy a trabajar como un parametro del metodo */
+        $em = $this->getDoctrine()->getManager();
+        $lastMovies = $em->getRepository(Movies::class)->lastMovies();
+
+        /** Verificar si se devolvio algun elemento */
+        if( !$lastMovies ) { return $this->verification_em( $lastMovies ); }
+
+        /** Retornar el response hecho de JSON */
+        $response = new JsonResponse;
+        return $response->setData( $this->array_em_json($lastMovies) );
 
     }
 
@@ -120,14 +139,11 @@ class MovieController extends AbstractController
 
     public function HTTPConnectApiTMDBMovieData( $moviesid ) {
         if( $moviesid->getTmdbid() != '' ) {
-            try {
-                $resapirestmdb = json_decode(
-                    file_get_contents("http://api.themoviedb.org/3/movie/".$moviesid->getTmdbid()."?api_key=834059cb24bc11be719c241a12f537f4&language=es"),
-                    true
-                );
-            } catch (Exception $e) {
-                $resapirestmdb = $e->getMessage();
-            }
+            $resapirestmdb = json_decode(
+                file_get_contents("http://api.themoviedb.org/3/movie/".$moviesid->getTmdbid()."?api_key=834059cb24bc11be719c241a12f537f4&language=es"),
+                true
+            );
+
             return $resapirestmdb;
         } else {
             return 0;

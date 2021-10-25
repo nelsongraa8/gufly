@@ -35,4 +35,19 @@ class MoviesRepository extends ServiceEntityRepository
         ;
     }
 
+    /**
+     * @return LastMovies[]
+     */
+    public function lastMovies()
+    {
+        return $this->createQueryBuilder('m')
+            ->andWhere('m.activate = :val')
+            ->setParameter('val', true)
+            ->orderBy('m.id', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
 }
