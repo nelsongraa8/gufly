@@ -47,16 +47,16 @@ class MoviesCrudController extends AbstractCrudController
         yield TextField::new('nombre');
         yield TextField::new('anno', 'Año');
 
-        yield TextEditorField::new('descripcion')->onlyOnIndex();
+        //yield TextEditorField::new('descripcion')->onlyOnIndex();
         yield TextareaField::new('descripcion')->hideOnIndex();
 
-        yield ImageField::new('poster')->onlyOnIndex();
+        // yield ImageField::new('poster')->onlyOnIndex();
         yield TextField::new('poster')->hideOnIndex();
 
-        yield ImageField::new('fanart')->onlyOnIndex();
+        // yield ImageField::new('fanart')->onlyOnIndex();
         yield TextField::new('fanart')->hideOnIndex();
 
-        yield UrlField::new('url')->hideOnIndex();
+        yield UrlField::new('url');
         yield TextField::new('idioma_subtitulo' , 'Idioma Sub');
 
         yield IntegerField::new('duracion')->formatValue(function($value, $entity) {
@@ -64,11 +64,11 @@ class MoviesCrudController extends AbstractCrudController
             $minutos = ($value / 60) % 60;
 
             return $horas.'h '.$minutos.'m';
-        });
+        })->hideOnIndex();
 
-        yield TextField::new('director')->setSortable(false);
-        yield TextField::new('genero')->setHelp('');
-        yield BooleanField::new('relevante')->setHelp('Seleccione para que se muestre en el carrucel de inicio')->onlyOnIndex();
+        yield TextField::new('director')->setSortable(false)->hideOnIndex();
+        yield TextField::new('genero')->setHelp('')->hideOnIndex();
+        yield BooleanField::new('relevante')->setHelp('Seleccione para que se muestre en el carrucel de inicio');
     }
 
 }

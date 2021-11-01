@@ -29,12 +29,13 @@ class DashboardController extends AbstractDashboardController
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('<img src="http://localhost:4200/assets/image/logo.png">')
-            ->setFaviconPath('http://localhost:4200/assets/image/logo.svg')
+            //->setTitle('<img src="http://localhost:4200/assets/image/logo.png">')
+            ->setTitle('<b>Admin Gufly</b>')
+            //->setFaviconPath('http://localhost:4200/assets/image/logo.svg')
             //->setTranslationDomain('my-custom-domain')
             //->setTextDirection('ltr')
             ->renderContentMaximized()
-            ->renderSidebarMinimized()
+            //->renderSidebarMinimized()
             //->disableUrlSignatures()
             //->generateRelativeUrls()
             ;

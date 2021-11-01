@@ -11,6 +11,8 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Movies|null findOneBy(array $criteria, array $orderBy = null)
  * @method Movies[]    findAll()
  * @method Movies[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Movies[]    findAllNombreSearch()
+ * @method Movies[]    findLastMovies() 
  */
 class MoviesRepository extends ServiceEntityRepository
 {
@@ -19,11 +21,12 @@ class MoviesRepository extends ServiceEntityRepository
         parent::__construct($registry, Movies::class);
     }
 
+
     /** Metodo con el que se encuentra las peliculas por su nombre en la DB de Gufly */
     /**
      * @return Movies[] Returns an array of Movies objects
      */
-    public function findAllNombreSearch($value)
+    public function findAllNombreSearch( $value )
     {
         return $this->createQueryBuilder('m')
             ->andWhere('m.nombre LIKE :val')
@@ -35,10 +38,7 @@ class MoviesRepository extends ServiceEntityRepository
         ;
     }
 
-    /**
-     * @return LastMovies[]
-     */
-    public function lastMovies()
+    public function findLastMovies()
     {
         return $this->createQueryBuilder('m')
             ->andWhere('m.activate = :val')

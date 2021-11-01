@@ -76,7 +76,7 @@ class MovieController extends AbstractController
 
         /** Traigo el repository en el que voy a trabajar como un parametro del metodo */
         $em = $this->getDoctrine()->getManager();
-        $lastMovies = $em->getRepository(Movies::class)->lastMovies();
+        $lastMovies = $em->getRepository(Movies::class)->findLastMovies();
 
         /** Verificar si se devolvio algun elemento */
         if( !$lastMovies ) { return $this->verification_em( $lastMovies ); }
