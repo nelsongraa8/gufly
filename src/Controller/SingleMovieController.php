@@ -47,19 +47,21 @@ class SingleMovieController extends AbstractController
         /** Diferencia entre desarrollo y produccion */
         if( $_ENV['APP_ENV'] == 'prod' ) {
             /** URL para entrorno de produccion */
-            $url_json_decode = file_get_contents("http://api.themoviedb.org/3/movie/".$movie->getId()."?api_key=834059cb24bc11be719c241a12f537f4&language=es");
+            $url_json_decode = file_get_contents("http://api.themoviedb.org/3/movie/".$movie->getTmdbid()."?api_key=834059cb24bc11be719c241a12f537f4&language=es");
         } else {
             /** URL para entorno local de desarrollo con trolado */
-            $url_json_decode = file_get_contents("http://localhost/guflyjson/movie.json");
-        }  
-        
+            #$url_json_decode = file_get_contents("http://localhost/guflyjson/movie.json");
+            $url_json_decode = file_get_contents("http://api.themoviedb.org/3/movie/".$movie->getTmdbid()."?api_key=834059cb24bc11be719c241a12f537f4&language=es");
+        }
+
         if( $_ENV['APP_ENV'] == 'prod' ) {
             /** URL para entrorno de produccion */
-            $urlcredits_json_decode = file_get_contents("http://api.themoviedb.org/3/movie/".$movie->getId()."/credits?api_key=834059cb24bc11be719c241a12f537f4&language=es");
+            $urlcredits_json_decode = file_get_contents("http://api.themoviedb.org/3/movie/".$movie->getTmdbid()."/credits?api_key=834059cb24bc11be719c241a12f537f4&language=es");
         } else {
             /** URL para entorno local de desarrollo con trolado */
-            $urlcredits_json_decode = file_get_contents("http://localhost/guflyjson/credits.json");
-        }  
+            #$urlcredits_json_decode = file_get_contents("http://localhost/guflyjson/credits.json");
+            $urlcredits_json_decode = file_get_contents("http://api.themoviedb.org/3/movie/".$movie->getTmdbid()."/credits?api_key=834059cb24bc11be719c241a12f537f4&language=es");
+        }
 
         /** Sacar los datos de la API de TheMovieDB */
         /** Datos de la movie extraidos de la DB */

@@ -34,8 +34,7 @@ class MoviesRepository extends ServiceEntityRepository
             ->orderBy('m.id', 'ASC')
             ->setMaxResults(10)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
 
     public function findLastMovies()
@@ -46,8 +45,18 @@ class MoviesRepository extends ServiceEntityRepository
             ->orderBy('m.id', 'ASC')
             ->setMaxResults(10)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
+    }
+
+    public function findAllMovies()
+    {
+        return $this->createQueryBuilder('m')
+            ->andWhere('m.activate = :val')
+            ->setParameter('val', true)
+            ->orderBy('m.id', 'DESC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
     }
 
 }

@@ -36,10 +36,10 @@ class MovieController extends AbstractController
     /**
      * @Route("/allmoviedata", name="allmovie")
      */
-    public function allmovie( Request $request, MoviesRepository $moviesrepository ): JsonResponse
+    public function allmovie( Request $request, MoviesRepository $moviesRepository ): JsonResponse
     {
         /** Traigo el repository en el que voy a trabajar como un parametro del metodo */
-        $movies = $moviesrepository->findBy(['activate' => true ]);
+        $movies = $moviesRepository->findAllMovies();
 
         /** Verificar si se devolvio algun elemento */
         if( !$movies ) { return $this->verification_em( $movies ); }
@@ -71,12 +71,11 @@ class MovieController extends AbstractController
     /**
      * @Route("/lastmoviedata", name="lastmovie")
      */
-    public function lastmovie(): JsonResponse
+    public function lastmovie( MoviesRepository $moviesRepository ): JsonResponse
     {
 
         /** Traigo el repository en el que voy a trabajar como un parametro del metodo */
-        $em = $this->getDoctrine()->getManager();
-        $lastMovies = $em->getRepository(Movies::class)->findLastMovies();
+        $lastMovies = $moviesRepository->findLastMovies();
 
         /** Verificar si se devolvio algun elemento */
         if( !$lastMovies ) { return $this->verification_em( $lastMovies ); }
@@ -88,13 +87,12 @@ class MovieController extends AbstractController
     }
 
     /**
-     * @Route("/search/{name_movie}", name="search_movie")
+     * @Route("/searchdata/{name_movie}", name="search_movie")
      */
-    public function search_movie( $name_movie ): JsonResponse
+    public function search_movie( $name_movie , MoviesRepository $moviesRepository ): JsonResponse
     {
         /** Traigo el repository en el que voy a trabajar como un parametro del metodo */
-        $em = $this->getDoctrine()->getManager();
-        $search_movie = $em->getRepository(Movies::class)->findAllNombreSearch($name_movie);
+        $search_movie = $moviesRepository->findAllNombreSearch($name_movie);
 
         /** Verificar si se devolvio algun elemento */
         if( !$search_movie ) { return $this->verification_em( $search_movie ); }
@@ -140,7 +138,7 @@ class MovieController extends AbstractController
     public function HTTPConnectApiTMDBMovieData( $moviesid ) {
         if( $moviesid->getTmdbid() != '' ) {
             $resapirestmdb = json_decode(
-                file_get_contents("http://api.themoviedb.org/3/movie/".$moviesid->getTmdbid()."?api_key=834059cb24bc11be719c241a12f537f4&language=es"),
+                file_get_contents("http://api.themoviedb.org/3/movie/".$moviesid->getTmdbid()."?api_key=834059cb24bc11be719c241a12f537f4"),
                 true
             );
 

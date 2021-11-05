@@ -25,7 +25,7 @@ class AddMovieController extends AbstractController
             file_get_contents( $url_json ),
             true
         );
-        
+
         $index_counter_add = 0;
         $index_counter_no_add = 0;
         $array_name_insert = [];
@@ -39,7 +39,7 @@ class AddMovieController extends AbstractController
 
             /**  Verificando si existe o no el ID en themoviedb */
             if( isset($res_movie_tmbd['results'][0]['id']) ) {
-                $idtmdb = $res_movie_tmbd['results'][0]['id'];    
+                $idtmdb = $res_movie_tmbd['results'][0]['id'];
             } else {
                 $idtmdb = '';
             }

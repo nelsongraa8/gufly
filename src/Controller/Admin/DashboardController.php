@@ -35,9 +35,9 @@ class DashboardController extends AbstractDashboardController
             //->setTranslationDomain('my-custom-domain')
             //->setTextDirection('ltr')
             ->renderContentMaximized()
-            //->renderSidebarMinimized()
-            //->disableUrlSignatures()
-            //->generateRelativeUrls()
+            ->renderSidebarMinimized()
+            ->disableUrlSignatures()
+            ->generateRelativeUrls()
             ;
     }
 
