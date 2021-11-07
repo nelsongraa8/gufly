@@ -34,12 +34,12 @@ class MovieController extends AbstractController
 
 
     /**
-     * @Route("/allmoviedata/{id_limit_movie}", name="allmovie")
+     * @Route("/allmoviedata/{id_limit_movie}/{max_result_find}", name="allmovie")
      */
-    public function allmovie( $id_limit_movie, MoviesRepository $moviesRepository ): JsonResponse
+    public function allmovie( $max_result_find , $id_limit_movie, MoviesRepository $moviesRepository ): JsonResponse
     {
         /** Traigo el repository en el que voy a trabajar como un parametro del metodo */
-        $movies = $moviesRepository->findAllMovies( $id_limit_movie );
+        $movies = $moviesRepository->findAllMovies( $id_limit_movie, $max_result_find );
 
         /** Verificar si se devolvio algun elemento */
         if( !$movies ) { return $this->verification_em( $movies ); }

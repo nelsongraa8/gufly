@@ -48,15 +48,15 @@ class MoviesRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findAllMovies( $val_limit )
+    public function findAllMovies( $val_limit, $max_result )
     {
         return $this->createQueryBuilder('m')
             ->andWhere('m.activate = :val')
             ->setParameter('val', true)
-            ->andWhere('m.id < :val2')
+            ->andWhere('m.id > :val2')
             ->setParameter('val2', $val_limit)
-            ->orderBy('m.id', 'DESC')
-            ->setMaxResults(10)
+            ->orderBy('m.id', 'ASC')
+            ->setMaxResults( $max_result )
             ->getQuery()
             ->getResult();
     }
