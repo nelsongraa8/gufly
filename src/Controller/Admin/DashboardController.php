@@ -34,8 +34,8 @@ class DashboardController extends AbstractDashboardController
             //->setFaviconPath('http://localhost:4200/assets/image/logo.svg')
             //->setTranslationDomain('my-custom-domain')
             //->setTextDirection('ltr')
-            ->renderContentMaximized()
-            ->renderSidebarMinimized()
+            //->renderContentMaximized()
+            //->renderSidebarMinimized()
             ->disableUrlSignatures()
             ->generateRelativeUrls()
             ;
@@ -44,13 +44,10 @@ class DashboardController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
         return [
-            //MenuItem::linkToDashboard('Dashboard', 'fa fa-home'),
+            MenuItem::linkToDashboard('Dashboard', 'fa fa-film'),
 
             MenuItem::section('Peliculas'),
             MenuItem::linkToCrud('Movies', 'fas fa-play', Movies::class),
-
-            //MenuItem::section('Destacadas'),
-            //MenuItem::linkToCrud('Destacadas', 'fas fa-list', Destacadas::class)
         ];
     }
 }
