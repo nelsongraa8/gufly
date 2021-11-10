@@ -54,6 +54,15 @@ class Movies
      */
     private $url_subtitulo;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Themoviedb::class, mappedBy="idmovie", cascade={"persist", "remove"})
+     */
+    private $themoviedb;
+
+    public function __toString(): string
+    {
+        return $this->id;
+    }
 
     public function getId(): ?int
     {
@@ -96,7 +105,7 @@ class Movies
         return $this;
     }
 
-    public function getUrlSubtitul(): ?string
+    public function getUrlSubtitulo(): ?string
     {
         return $this->url_subtitulo;
     }
@@ -140,6 +149,23 @@ class Movies
     public function setActivate(?int $activate): self
     {
         $this->activate = $activate;
+
+        return $this;
+    }
+
+    public function getThemoviedb(): ?Themoviedb
+    {
+        return $this->themoviedb;
+    }
+
+    public function setThemoviedb(Themoviedb $themoviedb): self
+    {
+        // set the owning side of the relation if necessary
+        if ($themoviedb->getIdmovie() !== $this) {
+            $themoviedb->setIdmovie($this);
+        }
+
+        $this->themoviedb = $themoviedb;
 
         return $this;
     }

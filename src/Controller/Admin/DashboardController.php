@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 use App\Entity\Movies;
 use App\Entity\Destacadas;
-
+use App\Entity\Themoviedb;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 
 class DashboardController extends AbstractDashboardController
@@ -34,7 +34,7 @@ class DashboardController extends AbstractDashboardController
             //->setFaviconPath('http://localhost:4200/assets/image/logo.svg')
             //->setTranslationDomain('my-custom-domain')
             //->setTextDirection('ltr')
-            //->renderContentMaximized()
+            ->renderContentMaximized()
             //->renderSidebarMinimized()
             ->disableUrlSignatures()
             ->generateRelativeUrls()
@@ -48,6 +48,9 @@ class DashboardController extends AbstractDashboardController
 
             MenuItem::section('Peliculas'),
             MenuItem::linkToCrud('Movies', 'fas fa-play', Movies::class),
+
+            MenuItem::section('API'),
+            MenuItem::linkToCrud('TheMovieDB', 'fas fa-cubes', Themoviedb::class )
         ];
     }
 }

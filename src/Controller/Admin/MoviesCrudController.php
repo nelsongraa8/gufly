@@ -42,33 +42,14 @@ class MoviesCrudController extends AbstractCrudController
     {
 
         yield IdField::new('id')->onlyOnIndex();
-        yield IdField::new('tmdbid' , 'tmdbID');
-        yield BooleanField::new('activate' , 'Activado')->onlyOnIndex();
+        yield IdField::new('tmdbid', 'tmdbID');
+        yield BooleanField::new('activate', 'Activado')->onlyOnIndex();
+        yield BooleanField::new('relevante')->onlyOnIndex()->setHelp('Seleccione para que se muestre en el carrucel de inicio');
         yield TextField::new('nombre');
         yield TextField::new('anno', 'Año');
+        yield UrlField::new('url', "URL_video");
+        yield UrlField::new('url_subtitulo', 'URL Subtitulo');
 
-        //yield TextEditorField::new('descripcion')->onlyOnIndex();
-        yield TextareaField::new('descripcion')->hideOnIndex();
-
-        // yield ImageField::new('poster')->onlyOnIndex();
-        yield TextField::new('poster')->hideOnIndex();
-
-        // yield ImageField::new('fanart')->onlyOnIndex();
-        yield TextField::new('fanart')->hideOnIndex();
-
-        yield UrlField::new('url');
-        yield TextField::new('idioma_subtitulo' , 'Idioma Sub');
-
-        yield IntegerField::new('duracion')->formatValue(function($value, $entity) {
-            $horas = (int) ($value / 3600);
-            $minutos = ($value / 60) % 60;
-
-            return $horas.'h '.$minutos.'m';
-        })->hideOnIndex();
-
-        yield TextField::new('director')->setSortable(false)->hideOnIndex();
-        yield TextField::new('genero')->setHelp('')->hideOnIndex();
-        yield BooleanField::new('relevante')->setHelp('Seleccione para que se muestre en el carrucel de inicio');
     }
 
 }
