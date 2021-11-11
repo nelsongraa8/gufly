@@ -44,7 +44,7 @@ class DashboardController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
         return [
-            MenuItem::linkToDashboard('Dashboard', 'fa fa-film'),
+            // MenuItem::linkToDashboard('Dashboard', 'fa fa-film'),
 
             MenuItem::section('Peliculas'),
             MenuItem::linkToCrud('Movies', 'fas fa-play', Movies::class),

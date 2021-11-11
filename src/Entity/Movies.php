@@ -61,7 +61,7 @@ class Movies
 
     public function __toString(): string
     {
-        return $this->id;
+        return $this->nombre;
     }
 
     public function getId(): ?int
