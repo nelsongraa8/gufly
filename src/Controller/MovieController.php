@@ -10,6 +10,9 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Movies;
 use App\Repository\MoviesRepository;
 
+use App\Entity\Themoviedb;
+use App\Repository\ThemoviedbRepository;
+
 class MovieController extends AbstractController
 {
 
@@ -127,7 +130,7 @@ class MovieController extends AbstractController
                     'nombre' => $movie->getNombre(),
                     'anno' => $movie->getAnno(),
                     'url' => $movie->getUrl(),
-                    'idioma_subtitulo' => $movie->getIdiomaSubtitulo(),
+                    'url_subtitulo' => $movie->getUrlSubtitulo(),
                     'data_tmdb' => $this->HTTPConnectApiTMDBMovieData( $movie ),
                 ];
         }
@@ -136,16 +139,44 @@ class MovieController extends AbstractController
     }
 
     public function HTTPConnectApiTMDBMovieData( $moviesid ) {
+
+        $moviescache = $moviesid->getThemoviedb();
+
         if( $moviesid->getTmdbid() != '' ) {
-            $resapirestmdb = json_decode(
-                file_get_contents("http://api.themoviedb.org/3/movie/".$moviesid->getTmdbid()."?api_key=834059cb24bc11be719c241a12f537f4"),
-                true
-            );
+
+            if( !$moviescache ) {
+                $resapirestmdb = json_decode(
+                    file_get_contents("http://api.themoviedb.org/3/movie/".$moviesid->getTmdbid()."?api_key=834059cb24bc11be719c241a12f537f4"),
+                    true
+                );
+
+                $this->functionPersistMoviesCache( $moviesid , $resapirestmdb );
+            } else {
+                $resapirestmdb = [
+                    'title' => $moviescache->getTitle(),
+                    'release_date' => $moviescache->getReleaseDate(),
+                    'backdrop_path' => $moviescache->getBackdropPath(),
+                    'poster_path' => $moviescache->getPosterPath()
+                ];
+            }
 
             return $resapirestmdb;
         } else {
             return 0;
         }
+    }
+
+    public function functionPersistMoviesCache( $moviesdb , $moviesgetAPI ) {
+        $moviescache = new Themoviedb;
+        $moviescache->setTitle( $moviesgetAPI['title'] );
+        $moviescache->setReleaseDate( $moviesgetAPI['release_date'] );
+        $moviescache->setBackdropPath( $moviesgetAPI['backdrop_path'] );
+        $moviescache->setPosterPath( $moviesgetAPI['poster_path'] );
+        $moviescache->setIdmovie( $moviesdb );
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist( $moviescache );
+        $em->flush();
     }
 
 }
