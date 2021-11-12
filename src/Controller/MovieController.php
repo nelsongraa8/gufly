@@ -4,14 +4,12 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 use App\Entity\Movies;
 use App\Repository\MoviesRepository;
 
 use App\Entity\Themoviedb;
-use App\Repository\ThemoviedbRepository;
 
 class MovieController extends AbstractController
 {
@@ -146,11 +144,15 @@ class MovieController extends AbstractController
 
             if( !$moviescache ) {
                 $resapirestmdb = json_decode(
-                    file_get_contents("http://api.themoviedb.org/3/movie/".$moviesid->getTmdbid()."?api_key=834059cb24bc11be719c241a12f537f4"),
+                    @file_get_contents("http://api.themoviedb.org/3/movie/".$moviesid->getTmdbid()."?api_key=834059cb24bc11be719c241a12f537f4"),
                     true
                 );
 
-                $this->functionPersistMoviesCache( $moviesid , $resapirestmdb );
+                if( $resapirestmdb === false ) {
+                    $resapirestmdb = json_decode('Data Less');
+                } else {
+                    $this->functionPersistMoviesCache( $moviesid , $resapirestmdb );
+                }
             } else {
                 $resapirestmdb = [
                     'title' => $moviescache->getTitle(),
