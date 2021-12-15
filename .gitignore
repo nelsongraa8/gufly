@@ -8,4 +8,7 @@
 /public/bundles/
 /var/
 /vendor/
+/sonar-project.properties
+/.scannerwork/
+/.vscode/
 ###< symfony/framework-bundle ###

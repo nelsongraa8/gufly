@@ -12,35 +12,55 @@ use App\Repository\MoviesRepository;
 
 class AddMovieController extends AbstractController
 {
+
+    private $url_json = '';
+
+    private $API_KEY_TMDB = '834059cb24bc11be719c241a12f537f4';
+
+    public function __construct()
+    {
+        /** URl de la cual extraigo el JSON con la info de las peliculas */
+        if( $_ENV['APP_ENV'] == 'prod' )
+        {
+            $this->url_json = 'http://guflyscanner.heroku.app';
+        }
+        else
+        {
+            $this->url_json = 'http://localhost/guflyscanner/data.json';
+        }
+    }
+
     /**
      * @Route("/add/movie/{count}", name="add_movie")
      */
     public function addmovie( $count , MoviesRepository $moviesrepository ): JsonResponse
     {
-        /** URl de la cual extraigo el JSON con la info de las peliculas */
-        $url_json = 'http://localhost/guflyscanner/data.json';
 
         /** Almaceno todo el json en una variable */
         $res_json_all_movie = json_decode(
-            file_get_contents( $url_json ),
+            file_get_contents( $this->url_json ),
             true
         );
 
         $index_counter_add = 0;
         $index_counter_no_add = 0;
         $array_name_insert = [];
-        foreach ($res_json_all_movie as $key => $value) {
+        foreach ($res_json_all_movie as $key => $value)
+        {
             /** Decodificar la varibale por si hay espacios enblanco y caracteres especiales %20 */
             $name_movie_format = urlencode( $value['name_video'] );
             $res_movie_tmbd = json_decode(
-                file_get_contents( "http://api.themoviedb.org/3/search/movie?api_key=834059cb24bc11be719c241a12f537f4&language=es&year=".$value['anno_video']."&query=".$name_movie_format ),
+                file_get_contents( "http://api.themoviedb.org/3/search/movie?api_key=".$this->API_KEY_TMDB."&language=es&year=".$value['anno_video']."&query=".$name_movie_format ),
                 true
             );
 
             /**  Verificando si existe o no el ID en themoviedb */
-            if( isset($res_movie_tmbd['results'][0]['id']) ) {
+            if( isset($res_movie_tmbd['results'][0]['id']) )
+            {
                 $idtmdb = $res_movie_tmbd['results'][0]['id'];
-            } else {
+            }
+            else
+            {
                 $idtmdb = '';
             }
 
@@ -90,7 +110,7 @@ class AddMovieController extends AbstractController
         /**  Devolver un JSON con datos de log */
         return $this->json([
             'movie_insert' => $array_name_insert,  // Movies annadidos carrectamente a la DB
-            'monie_no_insert' => $array_name_no_insert  // Movies que no se pudieron annadir a la DB
+            'movie_no_insert' => $array_name_no_insert  // Movies que no se pudieron annadir a la DB
         ]);
     }
 }
