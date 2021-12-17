@@ -2,27 +2,42 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
+use App\Repository\MoviesRepository;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
+use App\Service\VerificationEMService;
+use App\Service\FormatSalidaJSONMovieService;
 
 class LastMovieController extends AbstractController
 {
     /**
      * @Route("/lastmoviedata", name="lastmovie")
      */
-    public function lastmovie(MoviesRepository $moviesRepository): JsonResponse
-    {
-        /** Traigo el repository en el que voy a trabajar como un parametro del metodo */
+    public function lastmovie(
+        MoviesRepository $moviesRepository,
+        // VerificationEMService $verificationemservice,
+        //FormatSalidaJSONMovieService $formatSalidaJSONMovieService
+    ): JsonResponse {
+        /**
+         * Traigo el repository en el que voy a trabajar como un parametro del metodo
+         */
         $lastMovies = $moviesRepository->findLastMovies();
 
-        /** Verificar si se devolvio algun elemento */
+        /**
+         * Verificar si se devolvio algun elemento
+         */
+        $verificationemservice = new VerificationEMService;
         if (!$lastMovies) {
-            return $this->verification_em($lastMovies);
+            return $verificationemservice->VerificationEM($lastMovies);
         }
 
+        $formatSalidaJSONMovieService = new FormatSalidaJSONMovieService;
         /** Retornar el response hecho de JSON */
         $response = new JsonResponse;
-        return $response->setData($this->array_em_json($lastMovies));
+        return $response->setData(
+            $formatSalidaJSONMovieService->FormatSalidaMovieArrayJSON($lastMovies)
+        );
     }
 }
