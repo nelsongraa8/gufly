@@ -45,7 +45,7 @@ class FormatSalidaJSONMovieService extends AbstractController
         if ( $moviesidtmdb != '') {
             if (!$moviescache) {
                 $resapirestmdb = json_decode(
-                    @file_get_contents("http://api.themoviedb.org/3/movie/" . $moviesidtmdb . "?api_key=834059cb24bc11be719c241a12f537f4"),
+                    @file_get_contents("http://api.themoviedb.org/3/movie/" . $moviesidtmdb . "?api_key=".$_ENV['ID_API_TMDB']),
                     true
                 );
 
