@@ -31,7 +31,7 @@ class AddMovieController extends AbstractController
     }
 
     /**
-     * @Route("/add/movie/{count}", name="add_movie")
+     * @Route("/addautomovieadmin/{count}", name="add_movie")
      */
     public function addmovie( $count , MoviesRepository $moviesrepository ): JsonResponse
     {
