@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Admin;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
+//use Symfony\Component\HttpFoundation\Request;
 
 use App\Entity\Movies;
 use App\Repository\MoviesRepository;
@@ -22,7 +22,7 @@ class AddMovieController extends AbstractController
         /** URl de la cual extraigo el JSON con la info de las peliculas */
         if( $_ENV['APP_ENV'] == 'prod' )
         {
-            $this->url_json = 'http://guflyscanner.heroku.app';
+            $this->url_json = 'https://guflyscanner.vercel.app/data.json';
         }
         else
         {

@@ -30,7 +30,7 @@ class MovieController extends AbstractController
         $max_result_find,
         $id_limit_movie,
         MoviesRepository $moviesRepository,
-        VerificationEMService $verificacion_movie
+        //VerificationEMService $verificacion_movie
     ): JsonResponse
     {
         /** Traigo el repository en el que voy a trabajar como un parametro del metodo */
@@ -38,6 +38,7 @@ class MovieController extends AbstractController
 
         /** Verificar si se devolvio algun elemento */
         if (!$movies) {
+            $verificacion_movie = new VerificationEMService;
             return $verificacion_movie->VerificationEM($movies);
         }
 
