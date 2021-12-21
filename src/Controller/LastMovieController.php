@@ -7,8 +7,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-use App\Service\VerificationEMService;
-use App\Service\FormatSalidaJSONMovieService;
+//use App\Service\VerificationEMService;
+use App\Service\SalidaDataMovieService;
 
 class LastMovieController extends AbstractController
 {
@@ -28,12 +28,12 @@ class LastMovieController extends AbstractController
         /**
          * Verificar si se devolvio algun elemento
          */
-        $verificationemservice = new VerificationEMService;
-        if (!$lastMovies) {
-            return $verificationemservice->VerificationEM($lastMovies);
-        }
+        // $verificationemservice = new VerificationEMService;
+        // if (!$lastMovies) {
+        //     return $verificationemservice->VerificationEM($lastMovies);
+        // }
 
-        $formatSalidaJSONMovieService = new FormatSalidaJSONMovieService;
+        $formatSalidaJSONMovieService = new SalidaDataMovieService;
         /** Retornar el response hecho de JSON */
         $response = new JsonResponse;
         return $response->setData(

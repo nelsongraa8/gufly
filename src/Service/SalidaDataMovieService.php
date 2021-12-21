@@ -5,7 +5,7 @@ namespace App\Service;
 use App\Entity\Themoviedb;
 #use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class FormatSalidaJSONMovieService
+class SalidaDataMovieService
 {
     /**
      * Formateo de la salida de un array en JSON, en llamado desde cada metodo de este controlador
