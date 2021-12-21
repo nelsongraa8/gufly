@@ -11,7 +11,7 @@ use App\Repository\MoviesRepository;
 use App\Service\FormatSalidaJSONMovieService;
 use App\Service\VerificationEMService;
 
-class MovieController extends AbstractController
+class AllMovieController extends AbstractController
 {
 
     /** Permite que el server haga 200 OK a un cliente diferente de este host */
