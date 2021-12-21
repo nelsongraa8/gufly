@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
-class MovieRelevantesController extends AbstractController
+class RelevantesMovieController extends AbstractController
 {
     /**
      * @Route("/relevantesdata", name="relevantes")
@@ -19,9 +19,9 @@ class MovieRelevantesController extends AbstractController
         $relevantes = $em->getRepository(Movies::class)->findBy(['relevante' => true]);
 
         /** Verificar si se devolvio algun elemento */
-        if (!$relevantes) {
-            return $this->verification_em($relevantes);
-        }
+        // if (!$relevantes) {
+        //     return $this->verification_em($relevantes);
+        // }
 
         /** Retornar el response hecho de JSON */
         $response = new JsonResponse;
