@@ -3,9 +3,9 @@
 namespace App\Service;
 
 use App\Entity\Themoviedb;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+#use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class FormatSalidaJSONMovieService extends AbstractController
+class FormatSalidaJSONMovieService
 {
     /**
      * Formateo de la salida de un array en JSON, en llamado desde cada metodo de este controlador
@@ -17,24 +17,33 @@ class FormatSalidaJSONMovieService extends AbstractController
          */
         $moviesAsArray = [];
         foreach ($movies_data as $movie) {
-            $this->methodForMoviesArrayFormat( $movie );
+            // $this->methodForMoviesArrayFormat( $moviesingle );
+            $moviesAsArray[] = [
+                'id' => $movie->getId(),
+                'tmdbid' => $movie->getTmdbid(),
+                'nombre' => $movie->getNombre(),
+                'anno' => $movie->getAnno(),
+                'url' => $movie->getUrl(),
+                'url_subtitulo' => $movie->getUrlSubtitulo(),
+                'data_tmdb' => $this->HTTPConnectApiTMDBMovieData($movie),
+            ];
         }
 
         return $moviesAsArray;
     }
 
-    private function methodForMoviesArrayFormat( $movie )
-    {
-        $moviesAsArray[] = [
-            'id' => $movie->getId(),
-            'tmdbid' => $movie->getTmdbid(),
-            'nombre' => $movie->getNombre(),
-            'anno' => $movie->getAnno(),
-            'url' => $movie->getUrl(),
-            'url_subtitulo' => $movie->getUrlSubtitulo(),
-            'data_tmdb' => $this->HTTPConnectApiTMDBMovieData($movie),
-        ];
-    }
+    // public function methodForMoviesArrayFormat( $movie )
+    // {
+    //     $moviesAsArray[] = [
+    //         'id' => $movie->getId(),
+    //         'tmdbid' => $movie->getTmdbid(),
+    //         'nombre' => $movie->getNombre(),
+    //         'anno' => $movie->getAnno(),
+    //         'url' => $movie->getUrl(),
+    //         'url_subtitulo' => $movie->getUrlSubtitulo(),
+    //         'data_tmdb' => $this->HTTPConnectApiTMDBMovieData($movie),
+    //     ];
+    // }
 
 
     public function HTTPConnectApiTMDBMovieData($moviesid)
@@ -73,18 +82,18 @@ class FormatSalidaJSONMovieService extends AbstractController
     }
 
 
-    public function functionPersistMoviesCache($moviesdb, $moviesgetAPI)
-    {
-        $moviescache = new Themoviedb;
-        $moviescache->setTitle($moviesgetAPI['title']);
-        $moviescache->setReleaseDate($moviesgetAPI['release_date']);
-        $moviescache->setBackdropPath($moviesgetAPI['backdrop_path']);
-        $moviescache->setPosterPath($moviesgetAPI['poster_path']);
-        $moviescache->setIdmovie($moviesdb);
+    // public function functionPersistMoviesCache($moviesdb, $moviesgetAPI)
+    // {
+    //     $moviescache = new Themoviedb;
+    //     $moviescache->setTitle($moviesgetAPI['title']);
+    //     $moviescache->setReleaseDate($moviesgetAPI['release_date']);
+    //     $moviescache->setBackdropPath($moviesgetAPI['backdrop_path']);
+    //     $moviescache->setPosterPath($moviesgetAPI['poster_path']);
+    //     $moviescache->setIdmovie($moviesdb);
 
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($moviescache);
-        $em->flush();
-    }
+    //     $em = $this->getDoctrine()->getManager();
+    //     $em->persist($moviescache);
+    //     $em->flush();
+    // }
 
 }

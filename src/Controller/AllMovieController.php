@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\MoviesRepository;
 
 use App\Service\FormatSalidaJSONMovieService;
-use App\Service\VerificationEMService;
+#use App\Service\VerificationEMService;
 
 class AllMovieController extends AbstractController
 {
@@ -37,10 +37,10 @@ class AllMovieController extends AbstractController
         $movies = $moviesRepository->findAllMovies($id_limit_movie, $max_result_find);
 
         /** Verificar si se devolvio algun elemento */
-        if (!$movies) {
-            $verificacion_movie = new VerificationEMService;
-            return $verificacion_movie->VerificationEM($movies);
-        }
+        // if (!$movies) {
+        //     $verificacion_movie = new VerificationEMService;
+        //     return $verificacion_movie->VerificationEM($movies);
+        // }
 
         /** Devolver los datos como JSON y mandar en el el array que se creo con el foreach() */
         $formatsalida = new FormatSalidaJSONMovieService;
