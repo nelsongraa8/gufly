@@ -17,7 +17,7 @@ class DevolutionRouteTest extends WebTestCase
             $client->getResponse()->getStatusCode()
         );
 
-        // Asegurar que el header "Content-Type" es "application/json"
+        /** Asegurar que el header "Content-Type" es "application/json" */
         $this->assertTrue(
             $client->getResponse()->headers->contains(
                 'Content-Type',
