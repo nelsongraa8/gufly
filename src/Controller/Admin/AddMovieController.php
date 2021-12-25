@@ -22,7 +22,7 @@ class AddMovieController extends AbstractController
         /** URl de la cual extraigo el JSON con la info de las peliculas */
         if( $_ENV['APP_ENV'] == 'prod' )
         {
-            $this->url_json = 'https://guflyscanner.vercel.app/data.json';
+            $this->url_json = 'https://guflyscanner.vercel.app/';
         }
         else
         {
