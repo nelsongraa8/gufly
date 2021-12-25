@@ -8,15 +8,17 @@ use Symfony\Component\Routing\Annotation\Route;
 
 use App\Repository\MoviesRepository;
 
-use App\Service\FormatSalidaJSONMovieService;
-#use App\Service\VerificationEMService;
+use App\Service\SalidaDataMovieService;
 
 class AllMovieController extends AbstractController
 {
+    public $moviesRepository;
 
     /** Permite que el server haga 200 OK a un cliente diferente de este host */
-    function __construct()
+    function __construct( MoviesRepository $repos )
     {
+        $this->moviesRepository = $repos;
+
         header('Access-Control-Allow-Origin:' . $_ENV['CLIENT_URL']);
         header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method");
         header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
@@ -29,12 +31,10 @@ class AllMovieController extends AbstractController
     public function allmovie(
         $max_result_find,
         $id_limit_movie,
-        MoviesRepository $moviesRepository,
-        //VerificationEMService $verificacion_movie
     ): JsonResponse
     {
         /** Traigo el repository en el que voy a trabajar como un parametro del metodo */
-        $movies = $moviesRepository->findAllMovies($id_limit_movie, $max_result_find);
+        $movies = $this->moviesRepository->findAllMovies($id_limit_movie, $max_result_find);
 
         /** Verificar si se devolvio algun elemento */
         // if (!$movies) {
@@ -43,8 +43,7 @@ class AllMovieController extends AbstractController
         // }
 
         /** Devolver los datos como JSON y mandar en el el array que se creo con el foreach() */
-        $formatsalida = new FormatSalidaJSONMovieService;
-
+        $formatsalida = new SalidaDataMovieService;
         $response = new JsonResponse;
         return $response->setData($formatsalida->FormatSalidaMovieArrayJSON( $movies ));
     }
