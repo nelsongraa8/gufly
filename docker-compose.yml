@@ -24,7 +24,7 @@ services:
     php74-service:
         build:
             context: .
-            dockerfile: ./php/Dockerfile
+            dockerfile: Dockerfile
         container_name: php74-container
         ports:
             - "9000:9000"
