@@ -5,7 +5,6 @@ namespace App\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-// use Symfony\Component\DependencyInjection\Reference;
 
 use App\Repository\MoviesRepository;
 
@@ -48,7 +47,8 @@ class LastMovieController extends AbstractController
 
         /** Retornar el response hecho de JSON */
         return new JsonResponse(
-            $this->formatSalidaJSONMovieService->FormatSalidaMovieArrayJSON($lastMovies)
+            $this->formatSalidaJSONMovieService
+            ->FormatSalidaMovieArrayJSON($lastMovies)
         );
     }
 }

@@ -11,12 +11,21 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class RelevantesMovieController extends AbstractController
 {
+    //public $moviesRepository;
     public $moviesRepository;
+    public $verificationemservice;
+    public $formatSalidaJSONMovieService;
 
     /** Permite que el server haga 200 OK a un cliente diferente de este host */
-    function __construct(MoviesRepository $repos)
+    public function __construct(
+        MoviesRepository $moviesRepositoryInjection,  // Repositoria para ejecutar la busqueda en la DB
+        VerificationMovieDBService $verificationemserviceInjection,  // Servicio para verificar ala correcta devolucion de peliculas
+        SalidaDataMovieService $formatSalidaJSONMovieServiceInjection  // Servicio que me devulve un array de datos de a DB
+    )
     {
-        $this->moviesRepository = $repos;
+        $this->moviesRepository = $moviesRepositoryInjection;  // Inyeccion
+        $this->verificationemservice = $verificationemserviceInjection;  // Inyeccion
+        $this->formatSalidaJSONMovieService = $formatSalidaJSONMovieServiceInjection;  // Inyeccion
 
         header('Access-Control-Allow-Origin:' . $_ENV['CLIENT_URL']);
         header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method");
@@ -35,15 +44,13 @@ class RelevantesMovieController extends AbstractController
 
         /** Verificar si se devolvio algun elemento */
         if (!$movies) {
-            $verificationMovieDBService = new VerificationMovieDBService;
-            return $verificationMovieDBService->VerificationEM($movies);
+            return $this->verificationemservice->VerificationEM();
         }
 
-        /** Devolver los datos como JSON y mandar en el el array que se creo con el foreach() */
-        $formatsalida = new SalidaDataMovieService;
-        $responsejson = new JsonResponse;
-        return $responsejson->setData(
-            $formatsalida->FormatSalidaMovieArrayJSON($movies)
+        /** Retornar el response hecho de JSON */
+        return new JsonResponse(
+            $this->formatSalidaJSONMovieService
+                ->FormatSalidaMovieArrayJSON($movies)
         );
     }
 }
