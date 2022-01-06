@@ -15,19 +15,6 @@ class AddMovieController extends AbstractController
 
     private $url_json = 'https://guflyscanner.vercel.app/';
 
-    // public function __construct()
-    // {
-    //     /** URl de la cual extraigo el JSON con la info de las peliculas */
-    //     if( $_ENV['APP_ENV'] == 'prod' )
-    //     {
-    //         $this->url_json = 'https://guflyscanner.vercel.app/';
-    //     }
-    //     else
-    //     {
-    //         $this->url_json = 'http://localhost/guflyscanner/data.json';
-    //     }
-    // }
-
     /**
      * @Route("/addautomovieadmin/{count}", name="add_movie")
      */
@@ -48,7 +35,7 @@ class AddMovieController extends AbstractController
             /** Decodificar la varibale por si hay espacios enblanco y caracteres especiales %20 */
             $name_movie_format = urlencode( $value['name_video'] );
             $res_movie_tmbd = json_decode(
-                file_get_contents( "http://api.themoviedb.org/3/search/movie?api_key=".$this->$_ENV['ID_API_TMDB']."&language=es&year=".$value['anno_video']."&query=".$name_movie_format ),
+                file_get_contents( "http://api.themoviedb.org/3/search/movie?api_key=".$_ENV['ID_API_TMDB']."&language=es&year=".$value['anno_video']."&query=".$name_movie_format ),
                 true
             );
 
