@@ -53,7 +53,7 @@ class LastMovieController extends AbstractController
         /** Retornar el response hecho de JSON */
         return new JsonResponse(
             $this->formatSalidaJSONMovieService
-            ->FormatSalidaMovieArrayJSON($lastMovies)
+                ->FormatSalidaMovieArrayJSON($lastMovies)
         );
     }
 }

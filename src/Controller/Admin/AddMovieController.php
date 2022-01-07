@@ -5,7 +5,6 @@ namespace App\Controller\Admin;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
-//use Symfony\Component\HttpFoundation\Request;
 
 use App\Entity\Movies;
 use App\Repository\MoviesRepository;
@@ -16,10 +15,11 @@ class AddMovieController extends AbstractController
     private $url_json = 'https://guflyscanner.vercel.app/';
 
     /**
-     * @Route("/addautomovieadmin/{count}", name="add_movie")
+     * @Route("/addautomovieadmin", name="add_movie")
      */
-    public function addmovie( $count , MoviesRepository $moviesrepository ): JsonResponse
+    public function addmovie( MoviesRepository $moviesrepository ): JsonResponse
     {
+        $count = 1;
 
         /** Almaceno todo el json en una variable */
         $res_json_all_movie = json_decode(
