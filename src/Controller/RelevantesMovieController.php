@@ -27,10 +27,13 @@ class RelevantesMovieController extends AbstractController
         $this->verificationemservice = $verificationemserviceInjection;  // Inyeccion
         $this->formatSalidaJSONMovieService = $formatSalidaJSONMovieServiceInjection;  // Inyeccion
 
-        header('Access-Control-Allow-Origin:' . $_ENV['CLIENT_URL']);
-        header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method");
-        header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
-        header("Allow: GET, POST, OPTIONS, PUT, DELETE");
+        if ('prod' === $_ENV['APP_ENV'])
+        {
+            header('Access-Control-Allow-Origin:' . $_ENV['CLIENT_URL']);
+            header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method");
+            header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
+            header("Allow: GET, POST, OPTIONS, PUT, DELETE");
+        }
     }
 
     /**
@@ -40,17 +43,22 @@ class RelevantesMovieController extends AbstractController
     {
         /** Traigo el repository en el que voy a trabajar como un parametro del metodo */
         $movies = $this->moviesRepository
-            ->findBy(['relevante' => true]);
+            ->findBy(
+                ['relevante' => true]
+            );
 
         /** Verificar si se devolvio algun elemento */
         if (!$movies) {
-            return $this->verificationemservice->VerificationEM();
+            return $this->verificationemservice
+                ->VerificationEM();
         }
 
         /** Retornar el response hecho de JSON */
         return new JsonResponse(
             $this->formatSalidaJSONMovieService
-                ->FormatSalidaMovieArrayJSON($movies)
+                ->FormatSalidaMovieArrayJSON(
+                    $movies
+                )
         );
     }
 }
