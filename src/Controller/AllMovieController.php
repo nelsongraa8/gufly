@@ -2,49 +2,76 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Routing\Annotation\Route;
-
 use App\Repository\MoviesRepository;
-
+use App\Service\HeaderMethodService;
 use App\Service\SalidaDataMovieService;
+use App\Service\VerificationMovieDBService;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AllMovieController extends AbstractController
 {
+    /**
+     * Variables para la Injeccion de Dependencias
+     *
+     * @var [string]
+     */
     public $moviesRepository;
 
-    /** Permite que el server haga 200 OK a un cliente diferente de este host */
-    function __construct( MoviesRepository $repos )
-    {
-        $this->moviesRepository = $repos;
+    public $verificationMovieDBService;
 
-        header('Access-Control-Allow-Origin:' . $_ENV['CLIENT_URL']);
-        header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method");
-        header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
-        header("Allow: GET, POST, OPTIONS, PUT, DELETE");
+    public $salidaDataMovieService;
+
+    /**
+     * Injectando las dependencias en esta clase
+     *
+     * @param MoviesRepository $moviesRepositoryInject
+     * @param VerificationMovieDBService $verificationMovieDBServiceInject
+     * @param SalidaDataMovieService $salidaDataMovieServiceInject
+     */
+    public function __construct( MoviesRepository $moviesRepositoryInject, VerificationMovieDBService $verificationMovieDBServiceInject, SalidaDataMovieService $salidaDataMovieServiceInject,)
+    {
+        $this->moviesRepository = $moviesRepositoryInject;
+        $this->verificationMovieDBService = $verificationMovieDBServiceInject;
+        $this->salidaDataMovieService = $salidaDataMovieServiceInject;
+
+        new HeaderMethodService(); // Anadir las cabeceras necesarias para la API
     }
 
     /**
-     * @Route("/allmoviedata/{id_limit_movie}/{max_result_find}", name="allmovie")
+     * @Route("/allmoviedata/{idLimitMovie}/{maxResultFindMovies}", name="allmovie")
+     *
+     * Mostrar todas las peliculas pasandole dos parametros para saber el fin y el inicio del muestreo de los datos
+     *
+     * @param int $maxResultFindMovies ID por el que empesar a buscar peliculas
+     * @param int $idLimitMovie        Numero de peliculas
+     *
+     * @return string En formato Json
      */
-    public function allmovie(
-        $max_result_find,
-        $id_limit_movie,
-    ): JsonResponse
+    public function allmovie($maxResultFindMovies, $idLimitMovie): JsonResponse
     {
         /** Traigo el repository en el que voy a trabajar como un parametro del metodo */
-        $movies = $this->moviesRepository->findAllMovies($id_limit_movie, $max_result_find);
+        $movies = $this->moviesRepository
+            ->findAllMovies(
+                $idLimitMovie,
+                $maxResultFindMovies,
+            )
+        ;
 
         /** Verificar si se devolvio algun elemento */
-        // if (!$movies) {
-        //     $verificacion_movie = new VerificationEMService;
-        //     return $verificacion_movie->VerificationEM($movies);
-        // }
+        if (!$movies) {
+            return $this->verificationMovieDBService
+                ->VerificationEM($movies);
+        }
 
         /** Devolver los datos como JSON y mandar en el el array que se creo con el foreach() */
-        $formatsalida = new SalidaDataMovieService;
-        $response = new JsonResponse;
-        return $response->setData($formatsalida->FormatSalidaMovieArrayJSON( $movies ));
+        $jsonResponse = new JsonResponse;
+        return $jsonResponse
+            ->setData(
+                $this->salidaDataMovieService
+                    ->FormatSalidaMovieArrayJSON($movies)
+            )
+        ;
     }
 }

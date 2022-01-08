@@ -2,14 +2,13 @@
 
 namespace App\Controller;
 
+use App\Repository\MoviesRepository;
+use App\Service\HeaderMethodService;
+use App\Service\SalidaDataMovieService;
+use App\Service\VerificationMovieDBService;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-
-use App\Repository\MoviesRepository;
-
-use App\Service\VerificationMovieDBService;
-use App\Service\SalidaDataMovieService;
 
 class LastMovieController extends AbstractController
 {
@@ -17,6 +16,7 @@ class LastMovieController extends AbstractController
     public $moviesRepository;
     public $verificationemservice;
     public $formatSalidaJSONMovieService;
+    public $headerMethodService;
 
     /** Inyectar las dependencias en el controlador, buenas practicas */
     public function __construct(
@@ -29,10 +29,7 @@ class LastMovieController extends AbstractController
         $this->verificationemservice = $verificationemserviceInjection;  // Inyeccion
         $this->formatSalidaJSONMovieService = $formatSalidaJSONMovieServiceInjection;  // Inyeccion
 
-        header('Access-Control-Allow-Origin:' . $_ENV['CLIENT_URL']);
-        header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method");
-        header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
-        header("Allow: GET, POST, OPTIONS, PUT, DELETE");
+        new HeaderMethodService();
     }
 
     /**

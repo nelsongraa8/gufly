@@ -6,11 +6,32 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class DevolutionRouteTest extends WebTestCase
 {
-    public function testSomething(): void
+    public function testGetRouteRelevantesMovies(): void
     {
         $client = static::createClient();
         $crawler = $client->request('GET', '/relevantesdata');
 
+        $this->methodVerifyURLsPased($client);  // Lamando al metodo de verificacion
+    }
+
+    public function testGetRouteLastMovies(): void
+    {
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/lastmoviedata');
+
+        $this->methodVerifyURLsPased($client);  // Lamando al metodo de verificacion
+    }
+
+    public function testGetRouteAllMovies(): void
+    {
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/allmoviedata/'.rand(1, 100).'/'.rand(1, 5));
+
+        $this->methodVerifyURLsPased($client);  // Lamando al metodo de verificacion
+    }
+
+    public function methodVerifyURLsPased( $client )
+    {
         /** Verificar esta URL */
         $this->assertEquals(
             200,
@@ -29,14 +50,14 @@ class DevolutionRouteTest extends WebTestCase
     }
 
     /** Method para ver el estado de la peticion */
-    public function responseStatusCode( $client )
+    private function responseStatusCode( $client )
     {
         return $client->getResponse()
             ->getStatusCode();
     }
 
     /** Method Response devulve el contenido del headers() */
-    public function responseHeaderContent( $client )
+    private function responseHeaderContent( $client )
     {
         return $client->getResponse()
             ->headers
@@ -47,7 +68,7 @@ class DevolutionRouteTest extends WebTestCase
     }
 
     /** Metodo para verificar el JSON numeric que devulve cada URL */
-    public function jsonResponseContentNumeric($client)
+    private function jsonResponseContentNumeric($client)
     {
         $jsonDataResponse = json_decode(
             $client->getResponse()
