@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Symfony package.
+ *
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Controller;
 
 use App\Repository\MoviesRepository;
@@ -26,11 +35,11 @@ class AllMovieController extends AbstractController
     /**
      * Injectando las dependencias en esta clase
      *
-     * @param MoviesRepository $moviesRepositoryInject
+     * @param MoviesRepository           $moviesRepositoryInject
      * @param VerificationMovieDBService $verificationMovieDBServiceInject
-     * @param SalidaDataMovieService $salidaDataMovieServiceInject
+     * @param SalidaDataMovieService     $salidaDataMovieServiceInject
      */
-    public function __construct( MoviesRepository $moviesRepositoryInject, VerificationMovieDBService $verificationMovieDBServiceInject, SalidaDataMovieService $salidaDataMovieServiceInject,)
+    public function __construct(MoviesRepository $moviesRepositoryInject, VerificationMovieDBService $verificationMovieDBServiceInject, SalidaDataMovieService $salidaDataMovieServiceInject, )
     {
         $this->moviesRepository = $moviesRepositoryInject;
         $this->verificationMovieDBService = $verificationMovieDBServiceInject;
@@ -42,7 +51,8 @@ class AllMovieController extends AbstractController
     /**
      * @Route("/allmoviedata/{idLimitMovie}/{maxResultFindMovies}", name="allmovie")
      *
-     * Mostrar todas las peliculas pasandole dos parametros para saber el fin y el inicio del muestreo de los datos
+     * Mostrar todas las peliculas pasandole dos parametros para
+     * saber el fin y el inicio del muestreo de los datos
      *
      * @param int $maxResultFindMovies ID por el que empesar a buscar peliculas
      * @param int $idLimitMovie        Numero de peliculas
@@ -51,21 +61,24 @@ class AllMovieController extends AbstractController
      */
     public function allmovie($maxResultFindMovies, $idLimitMovie): JsonResponse
     {
-        /** Traigo el repository en el que voy a trabajar como un parametro del metodo */
+        /**
+         * Traigo el repository en el que voy a trabajar como un parametro del metodo
+         */
         $movies = $this->moviesRepository
             ->findAllMovies(
                 $idLimitMovie,
                 $maxResultFindMovies,
-            )
-        ;
+            );
 
-        /** Verificar si se devolvio algun elemento */
-        if (!$movies) {
+        if (!$movies) { // Verificar si se devolvio algun elemento
             return $this->verificationMovieDBService
                 ->VerificationEM($movies);
         }
 
-        /** Devolver los datos como JSON y mandar en el el array que se creo con el foreach() */
+        /**
+         * Devolver los datos como JSON y mandar en
+         * el el array que se creo con el foreach()
+         * */
         $jsonResponse = new JsonResponse;
         return $jsonResponse
             ->setData(
