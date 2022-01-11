@@ -1,14 +1,5 @@
 <?php
 
-/*
- * This file is part of the Symfony package.
- *
- * (c) Fabien Potencier <fabien@symfony.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace App\Controller;
 
 use App\Repository\MoviesRepository;
@@ -39,11 +30,11 @@ class AllMovieController extends AbstractController
      * @param VerificationMovieDBService $verificationMovieDBServiceInject
      * @param SalidaDataMovieService     $salidaDataMovieServiceInject
      */
-    public function __construct(MoviesRepository $moviesRepositoryInject, VerificationMovieDBService $verificationMovieDBServiceInject, SalidaDataMovieService $salidaDataMovieServiceInject, )
+    public function __construct(MoviesRepository $mRep, VerificationMovieDBService $vMDBS, SalidaDataMovieService $sDMS)
     {
-        $this->moviesRepository = $moviesRepositoryInject;
-        $this->verificationMovieDBService = $verificationMovieDBServiceInject;
-        $this->salidaDataMovieService = $salidaDataMovieServiceInject;
+        $this->moviesRepository = $mRep;
+        $this->verificationMovieDBService = $vMDBS;
+        $this->salidaDataMovieService = $sDMS;
 
         new HeaderMethodService(); // Anadir las cabeceras necesarias para la API
     }
@@ -54,8 +45,8 @@ class AllMovieController extends AbstractController
      * Mostrar todas las peliculas pasandole dos parametros para
      * saber el fin y el inicio del muestreo de los datos
      *
-     * @param int $maxResultFindMovies ID por el que empesar a buscar peliculas
-     * @param int $idLimitMovie        Numero de peliculas
+     * @param integer $maxResultFindMovies ID por el que empesar a buscar peliculas
+     * @param integer $idLimitMovie        Numero de peliculas
      *
      * @return string En formato Json
      */
@@ -78,13 +69,12 @@ class AllMovieController extends AbstractController
         /**
          * Devolver los datos como JSON y mandar en
          * el el array que se creo con el foreach()
-         * */
-        $jsonResponse = new JsonResponse;
+         */
+        $jsonResponse = new JsonResponse();
         return $jsonResponse
             ->setData(
                 $this->salidaDataMovieService
                     ->FormatSalidaMovieArrayJSON($movies)
-            )
-        ;
+            );
     }
 }
