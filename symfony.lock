@@ -2,6 +2,12 @@
     "composer/package-versions-deprecated": {
         "version": "1.11.99.4"
     },
+    "composer/pcre": {
+        "version": "1.0.0"
+    },
+    "composer/xdebug-handler": {
+        "version": "2.0.4"
+    },
     "doctrine/annotations": {
         "version": "1.0",
         "recipe": {
@@ -109,6 +115,9 @@
     "nikic/php-parser": {
         "version": "v4.12.0"
     },
+    "pdepend/pdepend": {
+        "version": "2.10.2"
+    },
     "phar-io/manifest": {
         "version": "2.0.3"
     },
@@ -123,6 +132,9 @@
     },
     "phpdocumentor/type-resolver": {
         "version": "1.5.1"
+    },
+    "phpmd/phpmd": {
+        "version": "2.11.1"
     },
     "phpspec/prophecy": {
         "version": "v1.15.0"
@@ -164,6 +176,9 @@
             "./phpunit.xml.dist",
             "./tests/bootstrap.php"
         ]
+    },
+    "phpunit/phpunit-selenium": {
+        "version": "9.0.0"
     },
     "psr/cache": {
         "version": "1.0.1"
