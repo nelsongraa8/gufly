@@ -20,11 +20,13 @@ class LastMovieController extends AbstractController
 
     /** Inyectar las dependencias en el controlador, buenas practicas */
     public function __construct(
-        MoviesRepository $moviesRepositoryInjection,  // Repositoria para ejecutar la busqueda en la DB
-        VerificationMovieDBService $verificationemserviceInjection,  // Servicio para verificar ala correcta devolucion de peliculas
-        SalidaDataMovieService $formatSalidaJSONMovieServiceInjection  // Servicio que me devulve un array de datos de a DB
-    )
-    {
+        /** Repositoria para ejecutar la busqueda en la DB */
+        MoviesRepository $moviesRepositoryInjection,
+        /** Servicio para verificar ala correcta devolucion de peliculas */
+        VerificationMovieDBService $verificationemserviceInjection,
+        /** Servicio que me devulve un array de datos de a DB */
+        SalidaDataMovieService $formatSalidaJSONMovieServiceInjection
+    ) {
         $this->moviesRepository = $moviesRepositoryInjection;  // Inyeccion
         $this->verificationemservice = $verificationemserviceInjection;  // Inyeccion
         $this->formatSalidaJSONMovieService = $formatSalidaJSONMovieServiceInjection;  // Inyeccion
@@ -37,7 +39,8 @@ class LastMovieController extends AbstractController
      *
      * Metodo para poder mostrar las peliculas mas relevantes
      */
-    public function lastmovie() {
+    public function lastmovie()
+    {
 
         /** Traigo el repository en el que voy a trabajar como un parametro del metodo */
         $lastMovies = $this->moviesRepository->findLastMovies();

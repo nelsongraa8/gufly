@@ -19,11 +19,13 @@ class RelevantesMovieController extends AbstractController
 
     /** Permite que el server haga 200 OK a un cliente diferente de este host */
     public function __construct(
-        MoviesRepository $moviesRepositoryInjection,  // Repositoria para ejecutar la busqueda en la DB
-        VerificationMovieDBService $verificationemserviceInjection,  // Servicio para verificar ala correcta devolucion de peliculas
-        SalidaDataMovieService $formatSalidaJSONMovieServiceInjection  // Servicio que me devulve un array de datos de a DB
-    )
-    {
+        /** Repositoria para ejecutar la busqueda en la DB */
+        MoviesRepository $moviesRepositoryInjection,
+        /** Servicio para verificar ala correcta devolucion de peliculas */
+        VerificationMovieDBService $verificationemserviceInjection,
+        /** Servicio que me devulve un array de datos de a DB */
+        SalidaDataMovieService $formatSalidaJSONMovieServiceInjection
+    ) {
         $this->moviesRepository = $moviesRepositoryInjection;  // Inyeccion
         $this->verificationemservice = $verificationemserviceInjection;  // Inyeccion
         $this->formatSalidaJSONMovieService = $formatSalidaJSONMovieServiceInjection;  // Inyeccion
