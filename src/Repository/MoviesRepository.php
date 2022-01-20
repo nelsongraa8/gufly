@@ -26,7 +26,7 @@ class MoviesRepository extends ServiceEntityRepository
     /**
      * @return Movies[] Returns an array of Movies objects
      */
-    public function findAllNombreSearch( $value )
+    public function findAllNombreSearch($value)
     {
         return $this->createQueryBuilder('m')
             ->andWhere('m.nombre LIKE :val')
