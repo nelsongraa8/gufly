@@ -2,9 +2,9 @@
 
 namespace App\Service;
 
-class HTTPConnectApiTMDBMovieData
+class HTTPConnectAPITMDBMovieDataService
 {
-    public function HTTPConnectApiTMDBMovie($moviesid)
+    public function methodService($moviesid)
     {
         $moviescache = $moviesid->getThemoviedb();  // Variable para la cache
         $moviesidtmdb = $moviesid->getTmdbid();  // ID en el API de la movie
@@ -13,12 +13,18 @@ class HTTPConnectApiTMDBMovieData
         if ('' !== $moviesidtmdb) {
             /** Verificando si no esta almacenada en cache */
             if (!$moviescache) {
-                $resapirestmdb = json_decode(  // Almacenando los datos buscados en la API
+                /** Almacenando los datos buscados en la API */
+                $resapirestmdb = json_decode(
                     @file_get_contents(
-                        "http://api.themoviedb.org/3/movie/".$moviesidtmdb."?api_key=".$_ENV['ID_API_TMDB']
+                        "http://api.themoviedb.org/3/movie/" . $moviesidtmdb . "?api_key=" . $_ENV['ID_API_TMDB']
                     ),
                     true
                 );
+
+                if (false !== $resapirestmdb) {
+                    $persistMovieCacheService = new PersistMovieCacheService();
+                    $persistMovieCacheService->functionPersistMoviesCache($moviesid, $resapirestmdb);
+                }
 
                 return $resapirestmdb;
             }

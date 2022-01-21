@@ -109,6 +109,9 @@
     "laminas/laminas-zendframework-bridge": {
         "version": "1.1.1"
     },
+    "monolog/monolog": {
+        "version": "2.3.5"
+    },
     "myclabs/deep-copy": {
         "version": "1.10.2"
     },
@@ -176,9 +179,6 @@
             "./phpunit.xml.dist",
             "./tests/bootstrap.php"
         ]
-    },
-    "phpunit/phpunit-selenium": {
-        "version": "9.0.0"
     },
     "psr/cache": {
         "version": "1.0.1"

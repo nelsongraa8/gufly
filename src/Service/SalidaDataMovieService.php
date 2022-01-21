@@ -2,7 +2,7 @@
 
 namespace App\Service;
 
-use App\Service\HTTPConnectApiTMDBMovieData;
+use App\Service\HTTPConnectAPITMDBMovieDataService;
 
 class SalidaDataMovieService
 {
@@ -11,7 +11,7 @@ class SalidaDataMovieService
      */
     public function formatSalidaMovieArrayJSON($movies_data)
     {
-        $httpConnectApiTMDBMovieData = new HTTPConnectApiTMDBMovieData;
+        $httpConnectApiTMDBMovieData = new HTTPConnectApiTMDBMovieDataService();
         /**
          * movies hay que transformarlo en un array para despues mostrarlo en un JSON
          */
@@ -24,7 +24,8 @@ class SalidaDataMovieService
                 'anno' => $movie->getAnno(),
                 'url' => $movie->getUrl(),
                 'url_subtitulo' => $movie->getUrlSubtitulo(),
-                'data_tmdb' => $httpConnectApiTMDBMovieData->HTTPConnectApiTMDBMovie($movie),  // Llamando al metodo para buscar en la API
+                'data_tmdb' => $httpConnectApiTMDBMovieData  //Llamando al metodo para buscar en la API
+                    ->methodService($movie),
             ];
         }
 
