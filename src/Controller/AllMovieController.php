@@ -15,7 +15,7 @@ class AllMovieController extends AbstractController
     /**
      * Variables para la Injeccion de Dependencias
      *
-     * @var [string]
+     * @var [objects]
      */
     public $moviesRepository;
 
@@ -30,13 +30,17 @@ class AllMovieController extends AbstractController
      * @param VerificationMovieDBService $verificationMovieDBServiceInject
      * @param SalidaDataMovieService     $salidaDataMovieServiceInject
      */
-    public function __construct(MoviesRepository $mRep, VerificationMovieDBService $vMDBS, SalidaDataMovieService $sDMS)
-    {
-        $this->moviesRepository = $mRep;
+    public function __construct(
+        MoviesRepository $mRep,
+        VerificationMovieDBService $vMDBS,
+        SalidaDataMovieService $sDMS,
+    ) {
+        $this->moviesRepository           = $mRep;
         $this->verificationMovieDBService = $vMDBS;
-        $this->salidaDataMovieService = $sDMS;
+        $this->salidaDataMovieService     = $sDMS;
 
-        new HeaderMethodService(); // Anadir las cabeceras necesarias para la API
+        /** Anadir las cabeceras necesarias para la API */
+        new HeaderMethodService();
     }
 
     /**

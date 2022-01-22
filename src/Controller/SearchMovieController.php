@@ -22,7 +22,7 @@ class SearchMovieController extends AbstractController
         }
 
         /** Retornar el response hecho de JSON */
-        $response = new JsonResponse;
+        $response = new JsonResponse();
         return $response->setData($this->array_em_json($search_movie));
     }
 }

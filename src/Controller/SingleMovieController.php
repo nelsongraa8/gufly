@@ -6,13 +6,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-
 use App\Entity\Movies;
 use App\Repository\MovieRepository;
 
 class SingleMovieController extends AbstractController
 {
-
     /** Permite que el server haga 200 OK a un cliente diferente de este host */
     function __construct()
     {
@@ -84,7 +82,7 @@ class SingleMovieController extends AbstractController
         ];
 
         /** Salida de JSON pra el cliente */
-        $response = new JsonResponse;
+        $response = new JsonResponse();
         return $response->setData([
             'data' => $array_movie,
             'data_api' => $res,

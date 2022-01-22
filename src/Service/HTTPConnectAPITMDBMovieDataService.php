@@ -12,7 +12,7 @@ class HTTPConnectAPITMDBMovieDataService
         /** Verificando si esta el ID del API de la movie */
         if ('' !== $moviesidtmdb) {
             /** Verificando si no esta almacenada en cache */
-            if (!$moviescache) {
+            if (is_null($moviescache)) {
                 /** Almacenando los datos buscados en la API */
                 $resapirestmdb = json_decode(
                     @file_get_contents(
@@ -20,11 +20,6 @@ class HTTPConnectAPITMDBMovieDataService
                     ),
                     true
                 );
-
-                if (false !== $resapirestmdb) {
-                    $persistMovieCacheService = new PersistMovieCacheService();
-                    $persistMovieCacheService->functionPersistMoviesCache($moviesid, $resapirestmdb);
-                }
 
                 return $resapirestmdb;
             }

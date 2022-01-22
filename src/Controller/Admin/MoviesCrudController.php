@@ -4,7 +4,6 @@ namespace App\Controller\Admin;
 
 use App\Entity\Movies;
 use App\Entity\Destacadas;
-
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
@@ -12,7 +11,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\EntityFilter;
-
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
@@ -20,9 +18,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
-
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
-
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class MoviesCrudController extends AbstractCrudController
@@ -67,7 +63,5 @@ class MoviesCrudController extends AbstractCrudController
         yield TextField::new('anno', 'Año');
         yield UrlField::new('url', "URL_video");
         yield UrlField::new('url_subtitulo', 'URL Subtitulo');
-
     }
-
 }

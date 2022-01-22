@@ -11,6 +11,8 @@ class DevolutionRouteTest extends WebTestCase
         $client = static::createClient();
         $crawler = $client->request('GET', '/relevantesdata');
 
+        // $this->assertResponseIsSuccessful();
+
         $this->methodVerifyURLsPased($client);  // Lamando al metodo de verificacion
     }
 
@@ -25,12 +27,12 @@ class DevolutionRouteTest extends WebTestCase
     public function testGetRouteAllMovies(): void
     {
         $client = static::createClient();
-        $crawler = $client->request('GET', '/allmoviedata/'.rand(1, 100).'/'.rand(1, 5));
+        $crawler = $client->request('GET', '/allmoviedata/' . rand(1, 100) . '/' . rand(1, 5));
 
         $this->methodVerifyURLsPased($client);  // Lamando al metodo de verificacion
     }
 
-    public function methodVerifyURLsPased( $client )
+    public function methodVerifyURLsPased($client)
     {
         /** Verificar esta URL */
         $this->assertEquals(
@@ -50,14 +52,14 @@ class DevolutionRouteTest extends WebTestCase
     }
 
     /** Method para ver el estado de la peticion */
-    private function responseStatusCode( $client )
+    private function responseStatusCode($client)
     {
         return $client->getResponse()
             ->getStatusCode();
     }
 
     /** Method Response devulve el contenido del headers() */
-    private function responseHeaderContent( $client )
+    private function responseHeaderContent($client)
     {
         return $client->getResponse()
             ->headers
