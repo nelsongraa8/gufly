@@ -3,9 +3,9 @@
 namespace App\Controller;
 
 use App\Repository\MoviesRepository;
-use App\Service\HeaderMethodService;
-use App\Service\SalidaDataMovieService;
-use App\Service\VerificationMovieDBService;
+use App\Controller\Utils\SalidaDataMovieService;
+use App\Controller\Utils\VerificationMovieDBService;
+use App\Controller\Utils\HeaderMethodService;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
