@@ -37,7 +37,7 @@ class HTTPConnectAPITMDBMovieDataService extends AbstractController
             return $this->methodForMovieInDB();
         }
         if ('' === $this->moviesidtmdb) {
-            return 'Data Less';
+            return ['Data Less'];
         }
     }
 
@@ -59,18 +59,22 @@ class HTTPConnectAPITMDBMovieDataService extends AbstractController
      */
     private function methodHTTPConnectAPI(): array
     {
-        $this->resapirestmdb = json_decode(
-            @file_get_contents(
-                "http://api.themoviedb.org/3/movie/" . $this->moviesidtmdb . "?api_key=" . $_ENV['ID_API_TMDB']
-            ),
-            true
-        );
+        try {
+            $this->resapirestmdb = json_decode(
+                file_get_contents(
+                    "http://api.themoviedb.org/3/movie/" . $this->moviesidtmdb . "?api_key=" . $_ENV['ID_API_TMDB']
+                ),
+                true
+            );
 
-        if (!$this->resapirestmdb) {
             $this->methodSaveDataCacheMovieAPI();
-        }
 
-        return $this->resapirestmdb;
+            return $this->resapirestmdb;
+        } catch (\Exception $e) {
+            $this->resapirestmdb = ['Data Less'];
+
+            return $this->resapirestmdb;
+        }
     }
 
     /**

@@ -16,18 +16,18 @@ jobs:
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress --no-suggest
 
-      #- name: PHP Code Sniffer
+      - name: PHP Code Sniffer
         if: ${{ always() }}
-        run: ./vendor/bin/phpcs --standard=PSR12 src
+        run: ./vendor/bin/phpcs --standard=PSR12 src/Controller
 
       #- name: PHP Mess Detector
-        if: ${{ always() }}
-        run: ./vendor/bin/phpmd src/ text codesize,controversial,phpmd.xml
+      #  if: ${{ always() }}
+      #  run: ./vendor/bin/phpmd src/ text codesize,controversial,phpmd.xml
 
       #- name: PHP Stan
       #  if: ${{ always() }}
       #  run: ./vendor/bin/phpstan analyse src
 
-      - name: PHP Unit tests
-        if: ${{ always() }}
-        run: ./vendor/bin/phpunit tests
+      #- name: PHP Unit tests
+      #  if: ${{ always() }}
+      #  run: ./vendor/bin/phpunit tests
