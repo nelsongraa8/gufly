@@ -1,4 +1,7 @@
 {
+    "captainhook/captainhook": {
+        "version": "5.10.6"
+    },
     "composer/package-versions-deprecated": {
         "version": "1.11.99.4"
     },
@@ -240,6 +243,15 @@
     "sebastian/version": {
         "version": "3.0.2"
     },
+    "sebastianfeldmann/camino": {
+        "version": "0.9.5"
+    },
+    "sebastianfeldmann/cli": {
+        "version": "3.4.1"
+    },
+    "sebastianfeldmann/git": {
+        "version": "3.8.1"
+    },
     "squizlabs/php_codesniffer": {
         "version": "3.6",
         "recipe": {
@@ -423,6 +435,9 @@
     },
     "symfony/polyfill-uuid": {
         "version": "v1.23.0"
+    },
+    "symfony/process": {
+        "version": "v5.3.13"
     },
     "symfony/property-access": {
         "version": "v5.3.7"
