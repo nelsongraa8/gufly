@@ -79,6 +79,9 @@
         ],
         "phpcbf-controller": [
             "./vendor/bin/phpcbf --standard=PSR12 -p src/Controller"
+        ],
+        "phpunit": [
+            "./vendor/bin/phpunit"
         ]
     },
     "conflict": {

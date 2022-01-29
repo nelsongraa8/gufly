@@ -25,12 +25,7 @@
                 "conditions": []
             },
             {
-                "action": "phpunit",
-                "options": [],
-                "conditions": []
-            },
-            {
-                "action": "phpcs --standard=psr2 src",
+                "action": "composer phpunit",
                 "options": [],
                 "conditions": []
             }
