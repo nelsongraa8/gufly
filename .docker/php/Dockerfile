@@ -3,6 +3,9 @@ ARG TIMEZONE
 
 COPY php.ini /usr/local/etc/php/conf.d/docker-php-config.ini
 
+### Copiar el nuevo soruces.list para Cuba
+COPY sources.list /etc/apt/sources.list
+
 ### -o para conectar al proxy
 RUN apt-get -o Acquire::http::Proxy='http://152.206.177.141:4200' update
 

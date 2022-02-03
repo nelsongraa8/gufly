@@ -7,10 +7,10 @@ services:
     #     volumes:
     #         - "db_librarify:/var/lib/mysql"
     #     environment:
-    #         MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-    #         MYSQL_DATABASE: ${MYSQL_DATABASE}
-    #         MYSQL_USER: ${MYSQL_USER}
-    #         MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    #         PGSQL_ROOT_PASSWORD: ${PGSQL_ROOT_PASSWORD}
+    #         PGSQL_DATABASE: ${PGSQL_DATABASE}
+    #         PGSQL_USER: ${PGSQL_USER}
+    #         PGSQL_PASSWORD: ${PGSQL_PASSWORD}
     #     ports:
     #         - 3306:3306
     #     networks:
