@@ -29,10 +29,17 @@ class AddMovieController extends AbstractController
         $index_counter_no_add = 0;
         $array_name_insert = [];
         foreach ($res_json_all_movie as $key => $value) {
-            /** Decodificar la varibale por si hay espacios enblanco y caracteres especiales %20 */
+            /**
+             * Decodificar la varibale por si hay espacios enblanco y caracteres especiales %20
+             */
             $name_movie_format = urlencode($value['name_video']);
             $res_movie_tmbd = json_decode(
-                file_get_contents("http://api.themoviedb.org/3/search/movie?api_key=" . $_ENV['ID_API_TMDB'] . "&language=es&year=" . $value['anno_video'] . "&query=" . $name_movie_format),
+                file_get_contents(
+                    "http://api.themoviedb.org/3/search/movie?api_key="
+                    . $_ENV['ID_API_TMDB'] . "&language=es&year="
+                    . $value['anno_video'] . "&query="
+                    . $name_movie_format
+                ),
                 true
             );
 

@@ -20,12 +20,12 @@
         "enabled": true,
         "actions": [
             {
-                "action": "\\CaptainHook\\App\\Hook\\PHP\\Action\\Linting",
+                "action": "composer phpunit",
                 "options": [],
                 "conditions": []
             },
             {
-                "action": "composer phpunit",
+                "action": "phpcs --standard=PSR12 -p src/Controller/AllMovieController.php src/Controller/LastMovieController.php src/Controller/RelevantesMovieController.php src/Controller/Utils",
                 "options": [],
                 "conditions": []
             }
