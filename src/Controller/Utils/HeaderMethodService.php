@@ -2,9 +2,7 @@
 
 namespace App\Controller\Utils;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-
-class HeaderMethodService extends AbstractController
+class HeaderMethodService
 {
     public function __construct()
     {

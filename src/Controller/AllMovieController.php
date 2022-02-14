@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Repository\MoviesRepository;
 use App\Controller\Utils\SalidaDataMovieService;
 use App\Controller\Utils\VerificationMovieDBService;
-use App\Controller\Utils\HeaderMethodService;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -38,9 +37,6 @@ class AllMovieController extends AbstractController
         $this->moviesRepository           = $mRep;
         $this->verificationMovieDBService = $vMDBS;
         $this->salidaDataMovieService     = $sDMS;
-
-        /** Anadir las cabeceras necesarias para la API */
-        new HeaderMethodService();
     }
 
     /**
@@ -54,7 +50,7 @@ class AllMovieController extends AbstractController
      *
      * @return string En formato Json
      */
-    public function allmovie($maxResultFindMovies, $idLimitMovie): JsonResponse
+    public function allMovie($maxResultFindMovies, $idLimitMovie): JsonResponse
     {
         /**
          * Traigo el repository en el que voy a trabajar como un parametro del metodo
@@ -65,9 +61,14 @@ class AllMovieController extends AbstractController
                 $maxResultFindMovies,
             );
 
-        if (!$movies) { // Verificar si se devolvio algun elemento
+        /**
+         * Verificar si se devolvio algun elemento
+         */
+        if (!$movies) {
             return $this->verificationMovieDBService
-                ->VerificationEM($movies);
+                ->VerificationEM(
+                    $movies
+                );
         }
 
         /**
@@ -78,7 +79,9 @@ class AllMovieController extends AbstractController
         return $jsonResponse
             ->setData(
                 $this->salidaDataMovieService
-                    ->FormatSalidaMovieArrayJSON($movies)
+                    ->FormatSalidaMovieArrayJSON(
+                        $movies
+                    )
             );
     }
 }

@@ -11,8 +11,6 @@ class DevolutionRouteTest extends WebTestCase
         $client = static::createClient();
         $crawler = $client->request('GET', '/relevantesdata');
 
-        // $this->assertResponseIsSuccessful();
-
         $this->methodVerifyURLsPased($client);  // Lamando al metodo de verificacion
     }
 
