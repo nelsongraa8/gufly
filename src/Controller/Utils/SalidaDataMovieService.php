@@ -2,17 +2,17 @@
 
 namespace App\Controller\Utils;
 
-use App\Service\HTTPConnectAPITMDBMovieDataService;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Controller\Utils\HTTPConnectAPITMDBMovieDataService;
 
-class SalidaDataMovieService extends AbstractController
+class SalidaDataMovieService
 {
     /**
      * Formato de la salida de un array en JSON, ez llamado desde cada metodo de este controlador
      */
     public function formatSalidaMovieArrayJSON($movies_data)
     {
-        $httpConnectApiTMDBMovieData = new HTTPConnectApiTMDBMovieDataService();
+        $httpConnectApiTMDBMovieData = new HTTPConnectAPITMDBMovieDataService();
+
         /**
          * movies hay que transformarlo en un array para despues mostrarlo en un JSON
          */
@@ -25,8 +25,7 @@ class SalidaDataMovieService extends AbstractController
                 'anno' => $movie->getAnno(),
                 'url' => $movie->getUrl(),
                 'url_subtitulo' => $movie->getUrlSubtitulo(),
-                'data_tmdb' => $httpConnectApiTMDBMovieData  //Llamando al metodo para buscar en la API
-                    ->methodService($movie),
+                'data_tmdb' => $httpConnectApiTMDBMovieData->methodService($movie)
             ];
         }
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Movies;
 
 use App\Repository\MoviesRepository;
 use App\Controller\Utils\SalidaDataMovieService;
@@ -75,13 +75,11 @@ class AllMovieController extends AbstractController
          * Devolver los datos como JSON y mandar en
          * el el array que se creo con el foreach()
          */
-        $jsonResponse = new JsonResponse();
-        return $jsonResponse
-            ->setData(
-                $this->salidaDataMovieService
-                    ->FormatSalidaMovieArrayJSON(
-                        $movies
-                    )
-            );
+        return new JsonResponse(
+            $this->salidaDataMovieService
+                ->formatSalidaMovieArrayJSON(
+                    $movies
+                )
+        );
     }
 }

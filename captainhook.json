@@ -25,7 +25,7 @@
                 "conditions": []
             },
             {
-                "action": "phpcs --standard=PSR12 -p src/Controller/AllMovieController.php src/Controller/LastMovieController.php src/Controller/RelevantesMovieController.php src/Controller/Utils",
+                "action": "phpcs --standard=PSR12 -p src/Controller/Movies/AllMovieController.php src/Controller/Movies/LastMovieController.php src/Controller/Movies/RelevantesMovieController.php src/Controller/Utils",
                 "options": [],
                 "conditions": []
             }

@@ -2,28 +2,23 @@
 
 namespace App\Controller\Utils;
 
-use App\Controller\Utils\PersistMovieCacheService;
+use App\Entity\Themoviedb;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class HTTPConnectAPITMDBMovieDataService extends AbstractController
 {
-    /**
-     * Objeto que representa la DB
-     */
-    private $moviesid;
-    /**
-     * Variable para la cache
-     */
-    private $moviescache;
-    /**
-     * ID en el API de la movie
-     */
-    private $moviesidtmdb;
-    /**
-     * Array donde estan los datos de la(s) movies que se quieren mostrar
-    */
-    private $resapirestmdb;
+    private $moviesid; // Objeto que representa la DB
+    private $moviescache; // Variable para la cache
+    private $moviesidtmdb; // ID en el API de la movie
+    private $resapirestmdb; // Array donde estan los datos de la(s) movies que se quieren mostrar
 
+    /**
+     * Metodo de entrada de esta clase
+     *
+     * @param [type] $moviesid
+     * @return array
+     */
     public function methodService($moviesid): array
     {
         $this->moviesid     = $moviesid;
@@ -62,12 +57,14 @@ class HTTPConnectAPITMDBMovieDataService extends AbstractController
         try {
             $this->resapirestmdb = json_decode(
                 file_get_contents(
-                    "http://api.themoviedb.org/3/movie/" . $this->moviesidtmdb . "?api_key=" . $_ENV['ID_API_TMDB']
+                    "http://api.themoviedb.org/3/movie/"
+                    . $this->moviesidtmdb . "?api_key="
+                    . $_ENV['ID_API_TMDB']
                 ),
                 true
             );
 
-            $this->methodSaveDataCacheMovieAPI();
+            // $this->methodSaveDataCacheMovieAPI(new ManagerRegistry);
 
             return $this->resapirestmdb;
         } catch (\Exception $e) {
@@ -92,12 +89,20 @@ class HTTPConnectAPITMDBMovieDataService extends AbstractController
         return $resapirestmdb;
     }
 
-    private function methodSaveDataCacheMovieAPI(): void
+    public function methodSaveDataCacheMovieAPI(ManagerRegistry $doctrineManager): void
     {
-        $persistMovieCacheService = new PersistMovieCacheService();
-        $persistMovieCacheService->functionPersistMoviesCache(
-            $this->moviesid,
-            $this->resapirestmdb
-        );
+        $moviesdb = $this->moviesid;
+        $moviesgetAPI = $this->resapirestmdb;
+
+        $moviescache = new Themoviedb();
+        $moviescache->setTitle($moviesgetAPI['title']);
+        $moviescache->setReleaseDate($moviesgetAPI['release_date']);
+        $moviescache->setBackdropPath($moviesgetAPI['backdrop_path']);
+        $moviescache->setPosterPath($moviesgetAPI['poster_path']);
+        $moviescache->setIdmovie($moviesdb);
+
+        $em = $doctrineManager->getManager();
+        $em->persist($moviescache);
+        $em->flush();
     }
 }

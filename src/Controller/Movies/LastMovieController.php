@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Movies;
 
 use App\Repository\MoviesRepository;
 use App\Service\SalidaDataMovieService;
@@ -9,12 +9,19 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class RelevantesMovieController extends AbstractController
+class LastMovieController extends AbstractController
 {
+    /**
+     * parametros para la inyeccion de dependencias
+     */
     public $moviesRepository;
     public $verificationemservice;
     public $formatSalidaJSONMovieService;
+    public $headerMethodService;
 
+    /**
+     * Inyectar las dependencias en el controlador, buenas practicas
+     */
     public function __construct(
         /**
          * Repositoria para ejecutar la busqueda en la DB
@@ -35,33 +42,27 @@ class RelevantesMovieController extends AbstractController
     }
 
     /**
-     * @Route("/relevantesdata", name="relevantes")
+     * @Route("/lastmoviedata", name="lastmovie")
+     *
+     * Metodo para poder mostrar las peliculas mas relevantes
      */
-    public function relevantes(): JsonResponse
+    public function lastmovie()
     {
-        /**
-         * Traigo el repository en el que voy a trabajar como un parametro del metodo
-         */
-        $movies = $this->moviesRepository
-            ->findBy(
-                ['relevante' => true]
-            );
+        /** Traigo el repository en el que voy a trabajar como un parametro del metodo */
+        $lastMovies = $this->moviesRepository
+            ->findLastMovies();
 
-        /**
-         * Verificar si se devolvio algun elemento
-         */
-        if (!$movies) {
+        /** Verificar si se devolvio algun elemento */
+        if (!$lastMovies) {
             return $this->verificationemservice
                 ->VerificationEM();
         }
 
-        /**
-         * Retornar el response hecho de JSON
-         */
+        /** Retornar el response hecho de JSON */
         return new JsonResponse(
             $this->formatSalidaJSONMovieService
-                ->FormatSalidaMovieArrayJSON(
-                    $movies
+                ->formatSalidaMovieArrayJSON(
+                    $lastMovies
                 )
         );
     }
