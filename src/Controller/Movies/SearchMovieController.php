@@ -16,7 +16,7 @@ class SearchMovieController extends AbstractController
     public $formatSalidaJSONMovieService;
 
     public function __construct(
-        MoviesRepository           $moviesRepository,
+        MoviesRepository $moviesRepository,
         VerificationMovieDBService $verificationMovieDBService,
         SalidaDataMovieService $formatSalidaJSONMovieService
     ) {
