@@ -18,7 +18,7 @@ jobs:
 
       - name: PHP Code Sniffer
         if: ${{ always() }}
-        run: ./vendor/bin/phpcs --standard=PSR12 src/Controller
+        run: ./vendor/bin/phpcs --standard=PSR12 -p src/Controller/Movies src/Controller/Utils
 
       #- name: PHP Mess Detector
       #  if: ${{ always() }}
