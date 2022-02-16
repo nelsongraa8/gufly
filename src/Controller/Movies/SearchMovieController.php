@@ -2,27 +2,54 @@
 
 namespace App\Controller\Movies;
 
+use App\Repository\MoviesRepository;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Controller\Utils\SalidaDataMovieService;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use App\Controller\Utils\VerificationMovieDBService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class SearchMovieController extends AbstractController
 {
+    public $moviesRepository;
+    public $verificationMovieDBService;
+    public $formatSalidaJSONMovieService;
+
+    public function __construct(
+        MoviesRepository           $moviesRepository,
+        VerificationMovieDBService $verificationMovieDBService,
+        SalidaDataMovieService $formatSalidaJSONMovieService
+    ) {
+        $this->moviesRepository             = $moviesRepository;
+        $this->verificationMovieDBService   = $verificationMovieDBService;
+        $this->formatSalidaJSONMovieService = $formatSalidaJSONMovieService;
+    }
+
     /**
-     * @Route("/searchdata/{name_movie}", name="search_movie")
+     * @Route("/searchmoviedata/{nameMovie}", name="search_movie")
      */
-    public function search_movie($name_movie, MoviesRepository $moviesRepository): JsonResponse
+    public function searchMovie($nameMovie): JsonResponse
     {
         /** Traigo el repository en el que voy a trabajar como un parametro del metodo */
-        $search_movie = $moviesRepository->findAllNombreSearch($name_movie);
+        $searchMovie = $this->moviesRepository
+            ->findAllNombreSearch(
+                $nameMovie
+            );
 
         /** Verificar si se devolvio algun elemento */
-        if (!$search_movie) {
-            return $this->verification_em($search_movie);
+        if (!$searchMovie) {
+            return $this->verificationMovieDBService
+                ->verificationEM(
+                    $searchMovie
+                );
         }
 
         /** Retornar el response hecho de JSON */
-        $response = new JsonResponse();
-        return $response->setData($this->array_em_json($search_movie));
+        return new JsonResponse(
+            $this->formatSalidaJSONMovieService
+                ->formatSalidaMovieArrayJSON(
+                    $searchMovie
+                )
+        );
     }
 }
