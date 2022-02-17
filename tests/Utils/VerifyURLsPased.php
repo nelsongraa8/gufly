@@ -1,58 +1,11 @@
 <?php
 
-namespace App\Tests\Controller\Movie;
+namespace App\Tests\Utils;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class DevolutionRouteTest extends WebTestCase
+class VerifyURLsPased extends WebTestCase
 {
-    /**
-     * relevantesmoviedata
-     *
-     * @return void
-     */
-    public function testGetRouteRelevantesMovies(): void
-    {
-        $client = static::createClient();
-        $crawler = $client->request('GET', '/relevantesmoviedata');
-
-        $this->methodVerifyURLsPased($client);  // Lamando al metodo de verificacion
-    }
-
-    /**
-     * lastmoviedata
-     *
-     * @return void
-     */
-    public function testGetRouteLastMovies(): void
-    {
-        $client = static::createClient();
-        $crawler = $client->request('GET', '/lastmoviedata');
-
-        $this->methodVerifyURLsPased($client);  // Lamando al metodo de verificacion
-    }
-
-    /**
-     * allmoviedata
-     *
-     * @return void
-     */
-    public function testGetRouteAllMovies(): void
-    {
-        $client = static::createClient();
-        $crawler = $client->request('GET', '/allmoviedata/' . rand(1, 100) . '/' . rand(1, 5));
-
-        $this->methodVerifyURLsPased($client);  // Lamando al metodo de verificacion
-    }
-
-    public function testGetRouteSearchMovies(): void
-    {
-        $client = static::createClient();
-        $crawler = $client->request('GET', '/searchmoviedata/Marksman');
-
-        $this->methodVerifyURLsPased($client);  // Lamando al metodo de verificacion
-    }
-
     public function methodVerifyURLsPased($client)
     {
         /** Verificar esta URL */
