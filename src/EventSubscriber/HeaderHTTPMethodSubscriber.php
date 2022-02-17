@@ -3,6 +3,7 @@
 namespace App\EventSubscriber;
 
 use App\Controller\Utils\HeaderMethodService;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -10,7 +11,9 @@ class HeaderHTTPMethodSubscriber implements EventSubscriberInterface
 {
     public function onControllerEvent(ControllerEvent $event)
     {
-        new HeaderMethodService;
+        $jsonresponse = new JsonResponse();
+        $jsonresponse->headers->set('Content-Type', 'application/json');
+        $jsonresponse->headers->set('Access-Control-Allow-Origin', '*');
     }
 
     public static function getSubscribedEvents()

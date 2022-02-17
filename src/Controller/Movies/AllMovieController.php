@@ -3,10 +3,11 @@
 namespace App\Controller\Movies;
 
 use App\Repository\MoviesRepository;
-use App\Controller\Utils\SalidaDataMovieService;
-use App\Controller\Utils\VerificationMovieDBService;
+// use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Controller\Utils\SalidaDataMovieService;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use App\Controller\Utils\VerificationMovieDBService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AllMovieController extends AbstractController
@@ -50,8 +51,10 @@ class AllMovieController extends AbstractController
      *
      * @return string En formato Json
      */
-    public function allMovie($maxResultFindMovies, $idLimitMovie): JsonResponse
-    {
+    public function allMovie(
+        $maxResultFindMovies,
+        $idLimitMovie,
+    ): JsonResponse {
         /**
          * Traigo el repository en el que voy a trabajar como un parametro del metodo
          */
@@ -71,15 +74,27 @@ class AllMovieController extends AbstractController
                 );
         }
 
-        /**
-         * Devolver los datos como JSON y mandar en
-         * el el array que se creo con el foreach()
-         */
-        return new JsonResponse(
+        $jsonresponse = new JsonResponse();
+        $jsonresponse->setData(
             $this->salidaDataMovieService
                 ->formatSalidaMovieArrayJSON(
                     $movies
                 )
         );
+
+        // $jsonresponse->headers->set('Content-Type', 'application/json');
+        // $jsonresponse->headers->set('Access-Control-Allow-Origin', '*');
+
+        return $jsonresponse;
+        /**
+         * Devolver los datos como JSON y mandar en
+         * el el array que se creo con el foreach()
+         */
+        // return new JsonResponse(
+        //     $this->salidaDataMovieService
+        //         ->formatSalidaMovieArrayJSON(
+        //             $movies
+        //         )
+        // );
     }
 }

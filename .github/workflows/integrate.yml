@@ -28,6 +28,6 @@ jobs:
       #  if: ${{ always() }}
       #  run: ./vendor/bin/phpstan analyse src
 
-      #- name: PHP Unit tests
-      #  if: ${{ always() }}
-      #  run: ./vendor/bin/phpunit tests
+      - name: PHP Unit tests
+        if: ${{ always() }}
+        run: ./vendor/bin/phpunit tests
