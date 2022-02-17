@@ -2,7 +2,6 @@
 
 namespace App\EventSubscriber;
 
-use App\Controller\Utils\HeaderMethodService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;

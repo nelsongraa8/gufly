@@ -6,6 +6,7 @@ use App\Controller\Utils\HTTPConnectAPITMDBMovieDataService;
 
 class SalidaDataMovieService
 {
+    private $moviesAsArray = [];
     /**
      * Formato de la salida de un array en JSON, ez llamado desde cada metodo de este controlador
      */
@@ -16,9 +17,13 @@ class SalidaDataMovieService
         /**
          * movies hay que transformarlo en un array para despues mostrarlo en un JSON
          */
-        $moviesAsArray = [];  // Array que retorna este metodo
-        foreach ($movies_data as $movie) {  // Ciclo para crear el array relacional de la info de movies
-            $moviesAsArray[] = [
+        // $moviesAsArray = [];  // Array que retorna este metodo
+
+        /**
+         * Ciclo para crear el array relacional de la info de movies
+         */
+        foreach ($movies_data as $movie) {
+            $this->moviesAsArray[] = [
                 'id' => $movie->getId(),
                 'tmdbid' => $movie->getTmdbid(),
                 'nombre' => $movie->getNombre(),
@@ -29,6 +34,6 @@ class SalidaDataMovieService
             ];
         }
 
-        return $moviesAsArray;
+        return $this->moviesAsArray;
     }
 }
