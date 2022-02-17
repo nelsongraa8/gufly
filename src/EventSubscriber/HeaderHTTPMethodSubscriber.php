@@ -13,10 +13,36 @@ class HeaderHTTPMethodSubscriber implements EventSubscriberInterface
         $jsonResponseGeneralMovieController = new JsonResponse();
 
         $jsonResponseGeneralMovieController->headers
-            ->set('Content-Type', 'application/json');
+            ->set(
+                'Content-Type',
+                'application/json'
+            );
 
-            $jsonResponseGeneralMovieController->headers
-            ->set('Access-Control-Allow-Origin', '*');
+        $jsonResponseGeneralMovieController->headers
+            ->set(
+                'Access-Control-Allow-Origin',
+                $_ENV['CLIENT_URL']
+            );
+
+        $jsonResponseGeneralMovieController->headers
+            ->set(
+                'Access-Control-Allow-Headers',
+                'X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method'
+            );
+
+        $jsonResponseGeneralMovieController->headers
+            ->set(
+                'Access-Control-Allow-Methods',
+                'GET, POST, OPTIONS, PUT, DELETE'
+            );
+
+        $jsonResponseGeneralMovieController->headers
+            ->set(
+                'Allow',
+                'GET, POST, OPTIONS, PUT, DELETE'
+            );
+
+            // <<<EOD sintaxis heredoc
     }
 
     public static function getSubscribedEvents()
