@@ -141,9 +141,12 @@ class DevolutionRouteTest extends WebTestCase
             true
         );
 
-        return is_numeric(
-            $jsonDataResponse[0][$valueAPI]
-        );
+        if (isset($jsonDataResponse[0][$valueAPI])) {
+            return is_numeric(
+                $jsonDataResponse[0][$valueAPI]
+            );
+        }
+        return false;
     }
 
     /**
@@ -161,11 +164,11 @@ class DevolutionRouteTest extends WebTestCase
             true
         );
 
-        if ('' === $jsonDataResponse[0][$valueAPI]) {
-            return false;
+        if ('' !== $jsonDataResponse[0][$valueAPI]) {
+            return true;
         }
 
-        return true;
+        return false;
     }
 
     /**
@@ -183,10 +186,10 @@ class DevolutionRouteTest extends WebTestCase
             true
         );
 
-        // if (isset($jsonDataResponse[0]['data_tmdb']['imdb_id'])) {
-        return true;
-        // }
+        if (isset($jsonDataResponse[0]['data_tmdb']['title'])) {
+            return true;
+        }
 
-        // return false;
+        return false;
     }
 }

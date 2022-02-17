@@ -15,11 +15,6 @@ class SalidaDataMovieService
         $httpConnectApiTMDBMovieData = new HTTPConnectAPITMDBMovieDataService();
 
         /**
-         * movies hay que transformarlo en un array para despues mostrarlo en un JSON
-         */
-        // $moviesAsArray = [];  // Array que retorna este metodo
-
-        /**
          * Ciclo para crear el array relacional de la info de movies
          */
         foreach ($movies_data as $movie) {
