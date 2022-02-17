@@ -14,7 +14,7 @@ class JsonResponseContentObject
             return ['message' => 'Lo sentimos! No hay peliculas'];
         }
 
-        $salidaDataMovieService = new SalidaDataMovieService;
+        $salidaDataMovieService = new SalidaDataMovieService();
 
         $jsonResponseMovie = $salidaDataMovieService
             ->formatSalidaMovieArrayJSON(
