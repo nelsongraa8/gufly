@@ -45,13 +45,13 @@ class DevolutionRouteTest extends WebTestCase
         $this->methodVerifyURLsPased($client);  // Lamando al metodo de verificacion
     }
 
-    // public function testGetRouteSearchMovies(): void
-    // {
-    //     $client = static::createClient();
-    //     $crawler = $client->request('GET', '/searchmoviedata/ ');
+    public function testGetRouteSearchMovies(): void
+    {
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/searchmoviedata/Marksman');
 
-    //     $this->methodVerifyURLsPased($client);  // Lamando al metodo de verificacion
-    // }
+        $this->methodVerifyURLsPased($client);  // Lamando al metodo de verificacion
+    }
 
     public function methodVerifyURLsPased($client)
     {

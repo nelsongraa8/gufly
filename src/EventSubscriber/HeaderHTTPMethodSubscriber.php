@@ -41,8 +41,6 @@ class HeaderHTTPMethodSubscriber implements EventSubscriberInterface
                 'Allow',
                 'GET, POST, OPTIONS, PUT, DELETE'
             );
-
-            // <<<EOD sintaxis heredoc
     }
 
     public static function getSubscribedEvents()
