@@ -3,12 +3,9 @@
 namespace App\Controller\Movies;
 
 use App\Repository\MoviesRepository;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use App\Controller\Utils\SalidaDataMovieService;
 use App\Controller\Utils\JsonResponseContentObject;
-use App\Controller\Utils\VerificationMovieDBService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AllMovieController extends AbstractController

@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class SearchMovieController extends AbstractController
 {
     public $moviesRepository;
+
     public function __construct(
         MoviesRepository $moviesRepository,
     ) {
