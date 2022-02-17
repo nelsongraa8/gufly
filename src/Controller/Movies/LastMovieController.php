@@ -7,6 +7,7 @@ use App\Service\SalidaDataMovieService;
 use App\Service\VerificationMovieDBService;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use App\Controller\Utils\JsonResponseContentObject;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class LastMovieController extends AbstractController
@@ -49,21 +50,17 @@ class LastMovieController extends AbstractController
     public function lastmovie()
     {
         /** Traigo el repository en el que voy a trabajar como un parametro del metodo */
-        $lastMovies = $this->moviesRepository
+        $moviesFindDB = $this->moviesRepository
             ->findLastMovies();
 
-        /** Verificar si se devolvio algun elemento */
-        if (!$lastMovies) {
-            return $this->verificationemservice
-                ->VerificationEM();
-        }
+        /** Instanciando la clase para trabajar con los datos de la DB */
+        $jsonResponseContentObject = new JsonResponseContentObject();
 
-        /** Retornar el response hecho de JSON */
+        /** Retornando el formato JSON */
         return new JsonResponse(
-            $this->formatSalidaJSONMovieService
-                ->formatSalidaMovieArrayJSON(
-                    $lastMovies
-                )
+            $jsonResponseContentObject->inputJsonResponseContentObject(
+                $moviesFindDB
+            )
         );
     }
 }

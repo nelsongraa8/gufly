@@ -7,6 +7,7 @@ use App\Service\SalidaDataMovieService;
 use App\Service\VerificationMovieDBService;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use App\Controller\Utils\JsonResponseContentObject;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class RelevantesMovieController extends AbstractController
@@ -42,27 +43,19 @@ class RelevantesMovieController extends AbstractController
         /**
          * Traigo el repository en el que voy a trabajar como un parametro del metodo
          */
-        $movies = $this->moviesRepository
+        $moviesFindDB = $this->moviesRepository
             ->findBy(
                 ['relevante' => true]
             );
 
-        /**
-         * Verificar si se devolvio algun elemento
-         */
-        if (!$movies) {
-            return $this->verificationemservice
-                ->VerificationEM();
-        }
+        /** Instanciando la clase para trabajar con los datos de la DB */
+        $jsonResponseContentObject = new JsonResponseContentObject();
 
-        /**
-         * Retornar el response hecho de JSON
-         */
+        /** Retornando el formato JSON */
         return new JsonResponse(
-            $this->formatSalidaJSONMovieService
-                ->formatSalidaMovieArrayJSON(
-                    $movies
-                )
+            $jsonResponseContentObject->inputJsonResponseContentObject(
+                $moviesFindDB
+            )
         );
     }
 }
