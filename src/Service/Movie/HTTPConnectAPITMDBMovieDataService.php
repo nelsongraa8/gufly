@@ -1,12 +1,8 @@
 <?php
 
-namespace App\Controller\Utils;
+namespace App\Service\Movie;
 
-use App\Entity\Themoviedb;
-use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-
-class HTTPConnectAPITMDBMovieDataService extends AbstractController
+class HTTPConnectAPITMDBMovieDataService
 {
     private $moviesid; // Objeto que representa la DB
     private $moviescache; // Variable para la cache
@@ -89,20 +85,20 @@ class HTTPConnectAPITMDBMovieDataService extends AbstractController
         return $resapirestmdb;
     }
 
-    public function methodSaveDataCacheMovieAPI(ManagerRegistry $doctrineManager): void
-    {
-        $moviesdb = $this->moviesid;
-        $moviesgetAPI = $this->resapirestmdb;
+    // public function methodSaveDataCacheMovieAPI(ManagerRegistry $doctrineManager): void
+    // {
+    //     $moviesdb = $this->moviesid;
+    //     $moviesgetAPI = $this->resapirestmdb;
 
-        $moviescache = new Themoviedb();
-        $moviescache->setTitle($moviesgetAPI['title']);
-        $moviescache->setReleaseDate($moviesgetAPI['release_date']);
-        $moviescache->setBackdropPath($moviesgetAPI['backdrop_path']);
-        $moviescache->setPosterPath($moviesgetAPI['poster_path']);
-        $moviescache->setIdmovie($moviesdb);
+    //     $moviescache = new Themoviedb();
+    //     $moviescache->setTitle($moviesgetAPI['title']);
+    //     $moviescache->setReleaseDate($moviesgetAPI['release_date']);
+    //     $moviescache->setBackdropPath($moviesgetAPI['backdrop_path']);
+    //     $moviescache->setPosterPath($moviesgetAPI['poster_path']);
+    //     $moviescache->setIdmovie($moviesdb);
 
-        $em = $doctrineManager->getManager();
-        $em->persist($moviescache);
-        $em->flush();
-    }
+    //     $em = $doctrineManager->getManager();
+    //     $em->persist($moviescache);
+    //     $em->flush();
+    // }
 }
