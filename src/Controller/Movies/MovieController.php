@@ -95,6 +95,19 @@ class MovieController extends AbstractController
     }
 
     /**
+     * @Route("/moviedata/{idMovie}", name="movie")
+     */
+    public function singleMovie($idMovie): JsonResponse
+    {
+        $this->moviesFindDB = $this->moviesRepository
+            ->findBy(
+                ['id' => $idMovie]
+            );
+
+        return $this->jsonDevolutionRequest();
+    }
+
+    /**
      * Metodo para enviar el JSON al cliente
      *
      * @return JsonResponse

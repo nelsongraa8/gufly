@@ -47,6 +47,16 @@ class MovieDevolutionRouteTest extends WebTestCase
         $this->inputTestGeneralMethod('/searchmoviedata/Marksman');
     }
 
+    /**
+     * movie
+     *
+     * @return void
+     */
+    public function testGetRouteMovie(): void
+    {
+        $this->inputTestGeneralMethod('/moviedata/80');
+    }
+
 
     private function inputTestGeneralMethod($url)
     {
