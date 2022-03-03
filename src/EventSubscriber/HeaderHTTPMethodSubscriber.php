@@ -10,37 +10,9 @@ class HeaderHTTPMethodSubscriber implements EventSubscriberInterface
 {
     public function onControllerEvent(ControllerEvent $event)
     {
-        $jsonResponseGeneralMovieController = new JsonResponse();
-
-        $jsonResponseGeneralMovieController->headers
-            ->set(
-                'Content-Type',
-                'application/json'
-            );
-
-        $jsonResponseGeneralMovieController->headers
-            ->set(
-                'Access-Control-Allow-Origin',
-                $_ENV['CLIENT_URL']
-            );
-
-        $jsonResponseGeneralMovieController->headers
-            ->set(
-                'Access-Control-Allow-Headers',
-                'X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method'
-            );
-
-        $jsonResponseGeneralMovieController->headers
-            ->set(
-                'Access-Control-Allow-Methods',
-                'GET, POST, OPTIONS, PUT, DELETE'
-            );
-
-        $jsonResponseGeneralMovieController->headers
-            ->set(
-                'Allow',
-                'GET, POST, OPTIONS, PUT, DELETE'
-            );
+        if ('test' != $_ENV['APP_ENV']) {
+            header('Access-Control-Allow-Origin:' . $_ENV['CLIENT_URL']);
+        }
     }
 
     public static function getSubscribedEvents()
